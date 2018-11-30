@@ -1,7 +1,7 @@
 export default {
   items: [
     {
-      name: 'Homepage',
+      name: 'HomePage',
       url: '/homepage',
       icon: 'icon-speedometer',
       badge: {
@@ -10,8 +10,8 @@ export default {
       },
     },
     {
-      name: 'Users',
-      url: '/users',
+      name: 'Accounts',
+      url: '/accounts',
       icon: 'icon-user',
       badge: {
         variant: 'info',
