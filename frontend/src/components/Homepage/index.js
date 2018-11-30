@@ -15,10 +15,6 @@ class HomePage extends React.Component {
       <div>
         <div style={divStyle} className="col-md-6 col-md-offset-3">
           <h1>Hi {user.email}!</h1>
-
-          <p>
-            <Link to="/login">Logout</Link>
-          </p>
         </div>
       </div>
     );

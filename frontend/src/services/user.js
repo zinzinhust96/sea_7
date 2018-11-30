@@ -3,7 +3,8 @@ import { LOGIN_URL, REGISTER_URL, LOGOUT_URL } from '../constants/endpoint'
 
 function logout() {
   // remove user from local storage to log user out
-  const requestOptions = {
+    localStorage.clear();
+    const requestOptions = {
     method: 'POST',
     headers: authHeader(),
   };

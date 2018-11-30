@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import './Default.scss';
+import { userActions } from '../../redux/actions/userAction';
 
 import {
     AppBreadcrumb,
@@ -23,7 +24,8 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
  class DefaultLayout extends Component {
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
      signOut(e) {
-         e.preventDefault()
+         e.preventDefault();
+         userActions.logout();
          this.props.history.push('/login')
      }
     render() {
