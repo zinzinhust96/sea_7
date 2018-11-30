@@ -9,5 +9,13 @@ export default {
         text: 'NEW',
       },
     },
+    {
+      name: 'Users',
+      url: '/users',
+      icon: 'icon-user',
+      badge: {
+        variant: 'info',
+      },
+    },
   ],
 };
