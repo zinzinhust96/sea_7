@@ -2,17 +2,16 @@ export default {
   items: [
     {
       name: 'HomePage',
-      url: '/homepage',
+      url: '/',
       icon: 'icon-speedometer',
       badge: {
         variant: 'info',
-        text: 'NEW',
       },
     },
     {
       name: 'Accounts',
       url: '/accounts',
-      icon: 'icon-user',
+      icon: 'fa fa-money',
       badge: {
         variant: 'info',
       },

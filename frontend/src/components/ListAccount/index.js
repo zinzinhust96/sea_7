@@ -3,23 +3,23 @@ import {
   Card, CardBody, CardHeader, Col, Row, Table,
 } from 'reactstrap';
 
+import { vndFormat, dateFormat } from '../../helpers/textFormatter'
+
 function UserRow(props) {
   const account = props.user;
   if (account) {
     return (
       <tr>
-        <th>{account.created}</th>
+        <th>{dateFormat(account.created)}</th>
         <td>{account.name}</td>
-        <td>{account.ini_bal}</td>
-        <td>{account.type}</td>
-        <td>{account.limit}</td>
+        <td>{vndFormat(account.ini_bal)}</td>
+        <td>{vndFormat(account.limit || 'N/A')}</td>
       </tr>
     )
   }
   return (
     <tr>
       <th>0</th>
-      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -47,11 +47,10 @@ class ListAccount extends Component {
                 <Table responsive hover>
                   <thead>
                     <tr>
-                      <th scope="col">created</th>
-                      <th scope="col">name</th>
-                      <th scope="col">ini_bal</th>
-                      <th scope="col">type</th>
-                      <th scope="col">limit</th>
+                      <th scope="col">Created</th>
+                      <th scope="col">Account Name</th>
+                      <th scope="col">Balance</th>
+                      <th scope="col">Credit Limit</th>
                     </tr>
                   </thead>
                   <tbody>
