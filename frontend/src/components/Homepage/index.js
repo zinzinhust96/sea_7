@@ -23,17 +23,20 @@ const items = [
   {
     src: image1,
     altText: 'Slide 1',
+    header: 'Building Client Success',
     caption: 'We Are Committed to One Thing:\n'
             + 'Building Client Success',
   },
   {
     src: image2,
     altText: 'Slide 2',
+    header: 'step on the path to success',
     caption: 'Let us help you take another step on the path to success.',
   },
   {
     src: image3,
     altText: 'Slide 3',
+    header: 'Save time and money',
     caption: 'Save time and money with our flexible spending accounts',
   },
 ];
@@ -84,7 +87,7 @@ class HomePage extends React.Component {
         key={item.src}
                 >
         <img className="d-block w-100" src={item.src} alt={item.altText} />
-        <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+        <CarouselCaption captionText={item.caption} captionHeader={item.header} />
       </CarouselItem>
     ));
 
