@@ -36,7 +36,7 @@ class ListAccount extends Component {
     const { listData } = this.props;
 
     return (
-      <div className="animated fadeIn">
+      <div className="animated fadeIn container-fluid">
         <Row>
           <Col xl={12}>
             <Card>

@@ -1,6 +1,5 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Container } from 'reactstrap';
 import './Default.scss';
 import {
   AppBreadcrumb,
@@ -20,6 +19,7 @@ import navigation from './_nav';
 import routes from '../routes';
 
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 
 class DefaultLayout extends Component {
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
@@ -50,7 +50,7 @@ class DefaultLayout extends Component {
             </AppSidebar>
             <main className="main">
               <AppBreadcrumb appRoutes={routes} />
-              <Container fluid>
+              <div>
                 <Suspense fallback={this.loading()}>
                   <Switch>
                     {routes.map((route, idx) => route.component ? (
@@ -67,12 +67,12 @@ class DefaultLayout extends Component {
                     <Redirect from="/" to="/homepage" />
                   </Switch>
                 </Suspense>
-              </Container>
+              </div>
             </main>
           </div>
           <AppFooter>
             <Suspense fallback={this.loading()}>
-              {/* <DefaultFooter /> */}
+              <DefaultFooter />
             </Suspense>
           </AppFooter>
         </div>
