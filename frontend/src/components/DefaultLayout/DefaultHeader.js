@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink,
 } from 'reactstrap';
 import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg';
-import sygnet from '../../assets/img/brand/sygnet.svg';
+import logo from '../../assets/img/brand/logo.png';
+import sygnet from '../../assets/img/brand/sygnet.png';
 import ava from '../../assets/img/ava.jpg';
 
 class DefaultHeader extends Component {
@@ -24,25 +23,13 @@ class DefaultHeader extends Component {
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
           full={{
-            src: logo, width: 89, height: 25, alt: 'CoreUI Logo',
+            src: logo, width: 110, height: 25, alt: 'MyFinance Logo',
           }}
           minimized={{
-            src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo',
+            src: sygnet, width: 30, height: 30, alt: 'MyFinance Logo',
           }}
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
-
-        <Nav className="d-md-down-none" navbar>
-          <NavItem className="px-3">
-            <NavLink href="/">HomePage</NavLink>
-          </NavItem>
-          <NavItem className="px-3">
-            <Link to="/accounts">Accounts</Link>
-          </NavItem>
-          <NavItem className="px-3">
-            <NavLink href="#">Settings</NavLink>
-          </NavItem>
-        </Nav>
         <Nav className="ml-auto" navbar>
           <NavItem className="d-md-down-none">
             <NavLink href="#"><i className="icon-bell" /><Badge pill color="danger">5</Badge></NavLink>
