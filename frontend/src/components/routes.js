@@ -2,7 +2,7 @@ import React from 'react';
 import DefaultLayout from './DefaultLayout/index';
 
 const HomePage = React.lazy(() => import('../containers/Homepage'));
-const Accounts = React.lazy(() => import('./ListAccount/ListAccount'));
+const Accounts = React.lazy(() => import('../containers/ListAccount'));
 const routes = [
   {
     path: '/', exact: true, name: 'Home', component: DefaultLayout,

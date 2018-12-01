@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const divStyle = {
   marginTop: 0,
@@ -10,7 +9,7 @@ const divStyle = {
 
 class HomePage extends React.Component {
   render() {
-    const { user, users } = this.props;
+    const { user } = this.props;
     return (
       <div>
         <div style={divStyle} className="col-md-6 col-md-offset-3">

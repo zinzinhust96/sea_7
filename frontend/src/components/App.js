@@ -23,7 +23,6 @@ class App extends React.Component {
 
   render() {
     if (localStorage.getItem('user')) {
-      console.log('OK! logined', localStorage.getItem('user'))
       return (
         <HashRouter>
           <Switch>
@@ -35,23 +34,20 @@ class App extends React.Component {
 
       )
     }
-    console.log('have not login yet');
     return (
       <Router history={history}>
         <div>
           <Route
             path="/"
             render={() => (<LoginPage authType={AUTH_TYPE.LOGIN} />)}
-                      />
+          />
           <Route
             path="/register"
             render={() => (<LoginPage authType={AUTH_TYPE.REGISTER} />)}
-                      />
+          />
         </div>
       </Router>
     );
-
-
   }
 }
 

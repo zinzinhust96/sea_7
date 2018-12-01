@@ -53,21 +53,17 @@ class DefaultLayout extends Component {
               <Container fluid>
                 <Suspense fallback={this.loading()}>
                   <Switch>
-                    {routes.map((route, idx) => {
-                      console.log('sssss', route, idx);
-                      return route.component ? (
-
-                        <Route
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          name={route.name}
-                          render={props => (
-                            <route.component {...props} />
-                          )}
-                                            />
-                      ) : (null);
-                    })}
+                    {routes.map((route, idx) => route.component ? (
+                      <Route
+                        key={idx}
+                        path={route.path}
+                        exact={route.exact}
+                        name={route.name}
+                        render={props => (
+                          <route.component {...props} />
+                        )}
+                      />
+                    ) : (null))}
                     <Redirect from="/" to="/homepage" />
                   </Switch>
                 </Suspense>
@@ -82,6 +78,5 @@ class DefaultLayout extends Component {
         </div>
       );
     }
-
 }
 export default DefaultLayout;
