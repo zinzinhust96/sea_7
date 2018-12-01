@@ -9,7 +9,7 @@ const initialState = {
   loading: false,
 }
 
-export default function users(state = initialState, action) {
+export default function accounts(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_ACCOUNT_REQUEST:
       return { ...state, loading: true }

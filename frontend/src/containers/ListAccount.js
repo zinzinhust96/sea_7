@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { getAllAccounts } from '../redux/actions/accountAction'
-import ListAccount from '../components/ListAccount'
+import ListAccount from '../components/Account'
 
 function mapStateToProps(state) {
   const { accounts } = state;

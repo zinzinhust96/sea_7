@@ -10,13 +10,15 @@ export default {
     },
     {
       name: 'Accounts',
-      url: '/accounts',
       icon: 'fa fa-money',
       children: [
         {
-          name: 'Create account',
+          name: 'List all accounts',
+          url: '/accounts',
+        },
+        {
+          name: 'Create new account',
           url: '/accounts/create',
-          icon: 'fa fa-plus-square',
         },
       ],
     },
