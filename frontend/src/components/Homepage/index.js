@@ -1,122 +1,14 @@
 import React from 'react';
-import {
-  Card,
-  CardBody,
-  Carousel,
-  CarouselCaption,
-  CarouselControl,
-  CarouselIndicators,
-  CarouselItem,
-  Col,
-  Row,
-} from 'reactstrap';
-import image2 from '../../assets/img/capu1.jpg'
-import image1 from '../../assets/img/CJT47.jpg'
-import image3 from '../../assets/img/hOIuY.jpg'
 import Purchases_car from '../../assets/img/Major-Purchases_car.png'
 import Purchases_House from '../../assets/img/Major-Purchases_House.png'
 import Purchases_tutition from '../../assets/img/Major-Purchases_tutition.png'
 import Purchases_vacation from '../../assets/img/Major-Purchases_vacation.png'
 import './homePage.css'
 
-const items = [
-  {
-    src: image1,
-    altText: 'Slide 1',
-    header: 'Building Client Success',
-    caption: 'We Are Committed to One Thing:\n'
-            + 'Building Client Success',
-  },
-  {
-    src: image2,
-    altText: 'Slide 2',
-    header: 'step on the path to success',
-    caption: 'Let us help you take another step on the path to success.',
-  },
-  {
-    src: image3,
-    altText: 'Slide 3',
-    header: 'Save time and money',
-    caption: 'Save time and money with our flexible spending accounts',
-  },
-];
-
 class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { activeIndex: 0 };
-    this.next = this.next.bind(this);
-    this.previous = this.previous.bind(this);
-    this.goToIndex = this.goToIndex.bind(this);
-    this.onExiting = this.onExiting.bind(this);
-    this.onExited = this.onExited.bind(this);
-  }
-
-  onExiting() {
-    this.animating = true;
-  }
-
-  onExited() {
-    this.animating = false;
-  }
-
-  next() {
-    if (this.animating) return;
-    const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
-    this.setState({ activeIndex: nextIndex });
-  }
-
-  previous() {
-    if (this.animating) return;
-    const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
-    this.setState({ activeIndex: nextIndex });
-  }
-
-  goToIndex(newIndex) {
-    if (this.animating) return;
-    this.setState({ activeIndex: newIndex });
-  }
-
   render() {
-    const { activeIndex } = this.state;
-
-    const slides2 = items.map(item => (
-      <CarouselItem
-        onExiting={this.onExiting}
-        onExited={this.onExited}
-        key={item.src}
-                >
-        <img className="d-block w-100" src={item.src} alt={item.altText} />
-        <CarouselCaption captionText={item.caption} captionHeader={item.header} />
-      </CarouselItem>
-    ));
-
     return (
       <div className="animated fadeIn">
-        <Row style={{ marginTop: -200 }}>
-          <Col xs="12" xl="12">
-            <Card>
-              <CardBody className="card-body">
-                <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-                  <CarouselIndicators
-                    items={items}
-                    activeIndex={activeIndex}
-                    onClickHandler={this.goToIndex}
-                                    />
-                  {slides2}
-
-                  <CarouselControl
-                    direction="prev"
-                    directionText="Previous"
-                    onClickHandler={this.previous}
-                                    />
-                  <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-                </Carousel>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-
         <div className="main-content">
           <div className="content section">
             <section role="region" aria-label="section">
