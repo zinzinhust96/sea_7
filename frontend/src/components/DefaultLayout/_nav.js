@@ -12,17 +12,14 @@ export default {
       name: 'Accounts',
       url: '/accounts',
       icon: 'fa fa-money',
-      badge: {
-        variant: 'info',
-      },
+      children: [
+        {
+          name: 'Create account',
+          url: '/accounts/create',
+          icon: 'fa fa-plus-square',
+        },
+      ],
     },
-    {
-      name: 'Create account',
-      url: '/accounts/create',
-      icon: 'fa fa-plus-square',
-      badge: {
-        variant: 'info',
-      },
-    },
+
   ],
 };

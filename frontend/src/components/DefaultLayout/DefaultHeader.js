@@ -9,14 +9,15 @@ import sygnet from '../../assets/img/brand/sygnet.svg';
 import ava from '../../assets/img/ava.jpg';
 
 class DefaultHeader extends Component {
-    constructor(props){
-        super(props);
-        if (localStorage.getItem('user')) {
-            this.state = { user: JSON.parse(localStorage.getItem('user')).email };
-        }else{
-            this.state = { user: 'admin' };
-        }
+  constructor(props) {
+    super(props);
+    if (localStorage.getItem('user')) {
+      this.state = { user: JSON.parse(localStorage.getItem('user')).email };
+    } else {
+      this.state = { user: 'admin' };
     }
+  }
+
   render() {
 
     return (
