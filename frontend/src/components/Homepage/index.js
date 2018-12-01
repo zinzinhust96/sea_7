@@ -1,8 +1,8 @@
 import React from 'react';
-import Purchases_car from '../../assets/img/Major-Purchases_car.png'
-import Purchases_House from '../../assets/img/Major-Purchases_House.png'
-import Purchases_tutition from '../../assets/img/Major-Purchases_tutition.png'
-import Purchases_vacation from '../../assets/img/Major-Purchases_vacation.png'
+import PurchasesCar from '../../assets/img/Major-Purchases_car.png'
+import PurchasesHouse from '../../assets/img/Major-Purchases_House.png'
+import PurchasesTutition from '../../assets/img/Major-Purchases_tutition.png'
+import PurchasesVacation from '../../assets/img/Major-Purchases_vacation.png'
 import './homePage.css'
 
 class HomePage extends React.Component {
@@ -11,7 +11,7 @@ class HomePage extends React.Component {
       <div className="animated fadeIn">
         <div className="main-content">
           <div className="content section">
-            <section role="region" aria-label="section">
+            <section aria-label="section">
               <div className="section-wrapper  backgroundColor-White" id="majorpurchase">
                 <div className="section-content  section-fullwidth">
                   <div className="titleanddescription section">
@@ -33,19 +33,19 @@ class HomePage extends React.Component {
                   <div className="imagelist section">
                     <div className="hand-drawn-image-title large-text ">
                       <div className="hand-drawn-image-title-item font-color-light-grey">
-                        <img src={Purchases_House} alt="icon" />
+                        <img src={PurchasesHouse} alt="icon" />
                         <p>IMPROVEMENTS</p>
                       </div>
                       <div className="hand-drawn-image-title-item font-color-light-grey">
-                        <img src={Purchases_tutition} alt="icon" />
+                        <img src={PurchasesTutition} alt="icon" />
                         <p>TUITION</p>
                       </div>
                       <div className="hand-drawn-image-title-item font-color-light-grey">
-                        <img src={Purchases_car} alt="icon" />
+                        <img src={PurchasesCar} alt="icon" />
                         <p>CAR</p>
                       </div>
                       <div className="hand-drawn-image-title-item font-color-light-grey">
-                        <img src={Purchases_vacation} alt="icon" />
+                        <img src={PurchasesVacation} alt="icon" />
                         <p>VACATION</p>
                       </div>
                     </div>
@@ -56,7 +56,7 @@ class HomePage extends React.Component {
                         href="#"
                         target=""
                         className="btn btn-solid"
-                                            >
+                      >
                         <span>BE SMART<br /> WITH YOUR MONEY</span>
                       </a>
                     </div>
@@ -67,22 +67,22 @@ class HomePage extends React.Component {
           </div>
         </div>
         <div className="content section">
-          <section role="region" aria-label="section">
+          <section aria-label="section">
             <div className="section-wrapper tier3" id="wealth">
               <div className="section-content section-content-with-image ">
                 <div className="titleanddescription section">
                   <div
                     className="backgroundColor-black-opaque rounded-corners-10 padding-left-50 padding-top-50 padding-right-50 padding-bottom-50"
-                                    >
+                  >
                     <div
                       className="section-title font-color-white medium-heading font-sinkin_sans200_x_light"
-                                        >
+                    >
                                             Planning For Your Future
 
                     </div>
                     <div className="section-description font-sinkin_sans200_x_light"><p><span
                       className="font-color-white"
-                                        >Two heads are better than one—an old saying,<br />
+                    >Two heads are better than one—an old saying,<br />
                                              and an obvious one when it comes to planning for your financial future. <br />
                                              No matter what success looks like for you, we help you achieve it.<br />
                       <br />
@@ -98,7 +98,7 @@ class HomePage extends React.Component {
                       href="#"
                       target=""
                       className="btn btn-solid"
-                                        >
+                    >
                       <span>PLAN FOR YOUR FUTURE</span>
                     </a>
                   </div>
