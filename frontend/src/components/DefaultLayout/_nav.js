@@ -16,5 +16,13 @@ export default {
         variant: 'info',
       },
     },
+    {
+      name: 'Create account',
+      url: '/accounts/create',
+      icon: 'fa fa-plus-square',
+      badge: {
+        variant: 'info',
+      },
+    },
   ],
 };
