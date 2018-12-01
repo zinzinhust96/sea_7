@@ -8,12 +8,17 @@ import logo from '../../assets/img/brand/logo.svg';
 import sygnet from '../../assets/img/brand/sygnet.svg';
 import ava from '../../assets/img/ava.jpg';
 
-const defaultProps = {
-  user: 'admin',
-};
-
 class DefaultHeader extends Component {
+    constructor(props){
+        super(props);
+        if (localStorage.getItem('user')) {
+            this.state = { user: JSON.parse(localStorage.getItem('user')).email };
+        }else{
+            this.state = { user: 'admin' };
+        }
+    }
   render() {
+
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -45,7 +50,7 @@ class DefaultHeader extends Component {
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
               <img src={ava} className="img-avatar" alt="admin" />
-              {this.props.user}
+              {this.state.user}
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
@@ -62,7 +67,5 @@ class DefaultHeader extends Component {
     );
   }
 }
-
-DefaultHeader.defaultProps = defaultProps;
 
 export default DefaultHeader;
