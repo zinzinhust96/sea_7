@@ -93,7 +93,7 @@ class HomePage extends React.Component {
 
     return (
       <div className="animated fadeIn">
-        <Row style={{ marginTop: -800 }}>
+        <Row style={{ marginTop: -200 }}>
           <Col xs="12" xl="12">
             <Card>
               <CardBody className="card-body">
