@@ -8,6 +8,8 @@ import { alertActions } from '../redux/actions/alertAction';
 import LoginPage from '../containers/LoginPage';
 import { AUTH_TYPE } from '../constants/user'
 import DefaultLayout from './DefaultLayout'
+import HomePage from '../containers/Homepage';
+import { PrivateRoute } from './PrivateRoute';
 
 class App extends React.Component {
   constructor(props) {
@@ -27,22 +29,22 @@ class App extends React.Component {
             <Route path="/" component={DefaultLayout} />
           </Switch>
         </Router>
-
-
       )
     }
     return (
       <Router history={history}>
-        <div>
+        <Switch>
+          {/* when app init, Page will redirect to login page */}
+          <PrivateRoute exact path="/" component={HomePage} />
           <Route
-            path="/"
+            path="/login"
             render={() => (<LoginPage authType={AUTH_TYPE.LOGIN} />)}
           />
           <Route
             path="/register"
             render={() => (<LoginPage authType={AUTH_TYPE.REGISTER} />)}
           />
-        </div>
+        </Switch>
       </Router>
     );
   }

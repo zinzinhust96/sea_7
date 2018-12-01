@@ -21,7 +21,7 @@ class AuthHeader extends React.PureComponent {
             to="/register"
             active={authType === AUTH_TYPE.REGISTER}
           >
-            Homepage
+            Register
           </LinkItem>
         </li>
         <li className="nav-item">
