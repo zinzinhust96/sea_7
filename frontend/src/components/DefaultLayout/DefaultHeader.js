@@ -19,7 +19,6 @@ class DefaultHeader extends Component {
   }
 
   render() {
-
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />

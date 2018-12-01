@@ -84,18 +84,8 @@ function register(email, password) {
     });
 }
 
-function getAll() {
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader(),
-  };
-
-  return fetch('/users', requestOptions).then(handleResponse);
-}
-
 export const userService = {
   login,
   register,
   logout,
-  getAll,
 };

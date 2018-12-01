@@ -8,9 +8,8 @@ const routes = [
     path: '/', exact: true, name: 'Homepage', component: HomePage,
   },
   {
-    path: '/accounts', exact: true, name: 'ListAccount', component: Accounts,
+    path: '/accounts', exact: true, name: 'List Account', component: Accounts,
   },
-
   {
     path: '/accounts/create', exact: true, name: 'Create account', component: createAccount,
   },
