@@ -19,7 +19,7 @@ class Logout(MethodView):
 
         @apiHeaderExample {json} Header-Example:
         {
-            "Authorization": "Bearer {auth_token_here}"
+            "Authorization": "Bearer auth_token_here"
         }
 
         @apiParam {Object} . Nothing is required here
@@ -30,7 +30,7 @@ class Logout(MethodView):
         @apiSampleRequest /api/v1/auth/logout
 
         @apiExample cURL example
-        $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer {auth_token_here}" -X POST -d '{}' http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/auth/logout
+        $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer auth_token_here" -X POST -d '{}' http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/auth/logout
 
         @apiSuccessExample {json} Success-Response:
             HTTP/1.0 200 OK

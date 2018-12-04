@@ -19,13 +19,15 @@ class Accounts(MethodView):
         @apiDescription Get all accounts of an authenticated user (10 accounts per page)
 
         @apiHeader {String} Authorization Users auth token
+        @apiHeader {String} Content-Type="application/json" Content-Type (should be application/json for every post requests)
 
         @apiHeaderExample {json} Header-Example:
         {
-            "Authorization": "Bearer {auth_token_here}"
+            "Authorization": "Bearer auth_token_here"
         }
 
         @apiSuccess (Success) {Object[]} accounts List of accounts
+        @apiSuccess (Success) {Number} accounts.id Account ID
         @apiSuccess (Success) {String} accounts.created Date created
         @apiSuccess (Success) {Number} accounts.cur_bal Current balance
         @apiSuccess (Success) {Number} accounts.ini_bal Initial balance
@@ -43,13 +45,14 @@ class Accounts(MethodView):
         @apiSampleRequest /api/v1/accounts
 
         @apiExample cURL example
-        $ curl -H "Authorization": "Bearer {auth_token_here}" http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/accounts
+        $ curl -H "Authorization": "Bearer auth_token_here" http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/accounts
 
         @apiSuccessExample {json} Success-Response:
             HTTP/1.0 200 OK
             {
                 "accounts": [
                     {
+                        "id": 1,
                         "created": "2018-11-28T06:11:55",
                         "cur_bal": 100000,
                         "ini_bal": 100000,
@@ -60,6 +63,7 @@ class Accounts(MethodView):
                         "type": "credit"
                     },
                     {
+                        "id": 2,
                         "created": "2018-11-28T09:45:05",
                         "cur_bal": 100000,
                         "ini_bal": 100000,
@@ -91,10 +95,11 @@ class Accounts(MethodView):
         @apiDescription Create an account for an authenticated user
 
         @apiHeader {String} Authorization Users auth token
+        @apiHeader {String} Content-Type="application/json" Content-Type (should be application/json for every post requests)
 
         @apiHeaderExample {json} Header-Example:
         {
-            "Authorization": "Bearer {auth_token_here}"
+            "Authorization": "Bearer auth_token_here"
         }
 
         @apiParam {String} name Name of the account
@@ -102,6 +107,7 @@ class Accounts(MethodView):
         @apiParam {String} type Account type [credit, cash]
         @apiParam {Number} limit Credit account limit (need to specify if the account type is credit, otherwise none required)
 
+        @apiSuccess (Success) {Number} id Account ID
         @apiSuccess (Success) {String} created Date created
         @apiSuccess (Success) {Number} cur_bal Current balance
         @apiSuccess (Success) {Number} ini_bal Initial balance
@@ -115,12 +121,13 @@ class Accounts(MethodView):
         @apiSampleRequest /api/v1/accounts
 
         @apiExample cURL example
-        $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer {auth_token_here}" -X POST
+        $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer auth_token_here" -X POST
             -d '{"name": "tep_acc1", "ini_bal": 100000, "type": "credit", "limit": 10000}' http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/accounts
 
         @apiSuccessExample {json} Success-Response:
             HTTP/1.0 200 OK
             {
+                "id": 1,
                 "created": "2018-11-28T09:31:35",
                 "cur_bal": 100000,
                 "ini_bal": 100000,

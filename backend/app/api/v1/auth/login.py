@@ -18,6 +18,8 @@ class Login(MethodView):
         @apiGroup Authentication
         @apiDescription Login a user if the supplied credentials are correct.
 
+        @apiHeader {String} Content-Type="application/json" Content-Type (should be application/json for every post requests)
+
         @apiParam {String} email Email of the user
         @apiParam {String} password Password of the user
 
