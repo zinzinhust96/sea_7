@@ -17,6 +17,8 @@ class Register(MethodView):
         @apiGroup Authentication
         @apiDescription Register a user, generate their token and add them to the database
 
+        @apiHeader {String} Content-Type="application/json" Content-Type (should be application/json for every post requests)
+
         @apiParam {String} email Email of the user
         @apiParam {String} password Password of the user
 

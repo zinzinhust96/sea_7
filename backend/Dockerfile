@@ -31,18 +31,21 @@ RUN mkdir -p /opt/app && cd /opt/app
 
 # Install Requirements
 COPY --from=builder /wheels /wheels
-RUN apk add --no-cache libcrypto1.0 libssl1.0 && \
+RUN apk add --no-cache supervisor libcrypto1.0 libssl1.0 && \
     pip install --no-cache /wheels/* && \
     rm -rf /wheels
-
-COPY uwsgi.ini /etc/uwsgi/
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
-ENTRYPOINT ['docker-entrypoint.sh']
 
 # Copy the code
 COPY . .
 
-CMD ['uwsgi', '--ini', '/etc/uwsgi/uwsgi.ini']
+# Run uwsgi unpriviledged
+RUN addgroup -S uwsgi && adduser -S -G uwsgi uwsgi && chown -R uwsgi:uwsgi /opt/app
+
+COPY uwsgi.ini /etc/uwsgi/
+COPY supervisord.conf /etc/supervisor/conf.d
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh && ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/usr/bin/supervisord"]
 
 EXPOSE 5000

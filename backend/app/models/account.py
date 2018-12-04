@@ -47,6 +47,7 @@ class Account(db.Model):
         :return:
         """
         return {
+            'id': self.id,
             'name': self.name,
             'type': self.account_type,
             'created': self.created_at.isoformat(),
@@ -80,6 +81,7 @@ class CreditAccount(Account):
         :return:
         """
         return {
+            'id': self.id,
             'name': self.name,
             'type': self.account_type,
             'created': self.created_at.isoformat(),
