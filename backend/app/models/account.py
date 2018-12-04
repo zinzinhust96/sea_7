@@ -11,7 +11,7 @@ class Account(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    account_type = db.Column(db.String(50))
+    account_type = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     initial_balance = db.Column(db.BigInteger, nullable=False)
     current_balance = db.Column(db.BigInteger, nullable=False)
