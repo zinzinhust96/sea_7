@@ -5,7 +5,7 @@ import {
 } from '../actions/accountAction'
 
 const initialState = {
-  listData: [],
+  listOfAccounts: [],
   loading: false,
 }
 
@@ -14,7 +14,7 @@ export default function accounts(state = initialState, action) {
     case GET_ALL_ACCOUNT_REQUEST:
       return { ...state, loading: true }
     case GET_ALL_ACCOUNT_SUCCESS:
-      return { ...state, listData: action.accounts }
+      return { ...state, listOfAccounts: action.accounts }
     case GET_ALL_ACCOUNT_ERROR:
       return { ...state, error: action.error }
     default:

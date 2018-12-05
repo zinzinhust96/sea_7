@@ -35,7 +35,7 @@ class CreateAccountForm extends React.PureComponent {
         <form onSubmit={this.handleSubmitForm}>
           <div className="form-group row">
             <label htmlFor="name" className="col-sm-2 col-form-label text-right">Name</label>
-            <input id="name" className="col-sm-10 form-control" name="content" type="text" value={name} onChange={this.handleFieldChange} required />
+            <input id="name" className="col-sm-10 form-control" name="name" type="text" value={name} onChange={this.handleFieldChange} required />
           </div>
           <div className="form-group row">
             <label htmlFor="type" className="col-sm-2 col-form-label text-right">Type</label>

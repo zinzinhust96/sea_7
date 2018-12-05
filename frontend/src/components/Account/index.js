@@ -33,7 +33,7 @@ class ListAccount extends Component {
   }
 
   render() {
-    const { listData } = this.props;
+    const { listOfAccounts } = this.props;
 
     return (
       <div className="animated fadeIn container-fluid">
@@ -54,7 +54,7 @@ class ListAccount extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {listData.map((account, index) => <UserRow key={index} user={account} />)}
+                    {listOfAccounts.map((account, index) => <UserRow key={index} user={account} />)}
                   </tbody>
                 </Table>
               </CardBody>
