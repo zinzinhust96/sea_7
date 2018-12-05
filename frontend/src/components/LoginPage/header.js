@@ -8,7 +8,7 @@ const LinkItem = styled(Link).attrs({
 })`
   cursor: pointer;
   color: #333;
-  font-weight: ${props => props.active ? 'bold' : 'normal'};
+  font-weight: ${props => props.selected ? 'bold' : 'normal'};
 `
 
 class AuthHeader extends React.PureComponent {
@@ -19,7 +19,7 @@ class AuthHeader extends React.PureComponent {
         <li className="nav-item">
           <LinkItem
             to="/register"
-            active={authType === AUTH_TYPE.REGISTER}
+            selected={authType === AUTH_TYPE.REGISTER}
           >
             Register
           </LinkItem>
@@ -27,7 +27,7 @@ class AuthHeader extends React.PureComponent {
         <li className="nav-item">
           <LinkItem
             to="/login"
-            active={authType === AUTH_TYPE.LOGIN}
+            selected={authType === AUTH_TYPE.LOGIN}
           >
             Login
           </LinkItem>

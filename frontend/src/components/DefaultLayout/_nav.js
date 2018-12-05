@@ -3,14 +3,14 @@ export default {
     {
       name: 'HomePage',
       url: '/',
-      icon: 'icon-speedometer',
+      icon: 'fa fa-home',
       badge: {
         variant: 'info',
       },
     },
     {
       name: 'Accounts',
-      icon: 'fa fa-money',
+      icon: 'fa fa-credit-card',
       children: [
         {
           name: 'List all accounts',
@@ -22,6 +22,19 @@ export default {
         },
       ],
     },
-
+    {
+      name: 'Transactions',
+      icon: 'fa fa-exchange',
+      children: [
+        {
+          name: 'Transactions History',
+          url: '/transactions',
+        },
+        {
+          name: 'Create transaction',
+          url: '/transactions/create',
+        },
+      ],
+    },
   ],
 };

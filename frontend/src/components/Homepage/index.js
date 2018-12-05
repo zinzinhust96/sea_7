@@ -52,13 +52,9 @@ class HomePage extends React.Component {
                   </div>
                   <div className="button section">
                     <div className="btn-centered margin-top-50 ">
-                      <a
-                        href="#"
-                        target=""
-                        className="btn btn-solid"
-                      >
-                        <span>BE SMART<br /> WITH YOUR MONEY</span>
-                      </a>
+                      <button type="button" className="btn btn-solid">
+                        BE SMART<br /> WITH YOUR MONEY
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -94,13 +90,9 @@ class HomePage extends React.Component {
                 </div>
                 <div className="button section">
                   <div className="btn-centered  ">
-                    <a
-                      href="#"
-                      target=""
-                      className="btn btn-solid"
-                    >
+                    <button type="button" className="btn btn-solid">
                       <span>PLAN FOR YOUR FUTURE</span>
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
