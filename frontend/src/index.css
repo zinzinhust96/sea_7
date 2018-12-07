@@ -22,3 +22,15 @@ option[value=""][disabled] {
 option {
   color: black;
 }
+
+.option-group {
+  font-weight: bold;
+  font-style: italic;
+}
+  
+.option-child {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-left: 15px;
+}
