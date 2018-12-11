@@ -8,9 +8,9 @@ db_host = os.getenv('DB_HOST', 'localhost')
 db_user = os.getenv('DB_USER', 'root')
 db_name = os.getenv('DB_NAME', 'my_finance')
 db_pass = os.getenv('DB_PASS', '')
-db_string = 'mysql+pymysql://{}:{}@{}/{}'.format(db_user, db_pass, db_host, db_name)
+db_string = 'mysql://{}:{}@{}/{}'.format(db_user, db_pass, db_host, db_name)
 db_test_name = db_name + '_test'
-db_test_string = 'mysql+pymysql://{}:{}@{}/{}'.format(db_user, db_pass, db_host, db_test_name)
+db_test_string = 'mysql://{}:{}@{}/{}'.format(db_user, db_pass, db_host, db_test_name)
 
 
 class Config:
