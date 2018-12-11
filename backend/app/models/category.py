@@ -1,5 +1,4 @@
 from app import db
-from sqlalchemy.orm import backref
 
 
 class Category(db.Model):
@@ -12,7 +11,7 @@ class Category(db.Model):
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     parent_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     name = db.Column(db.String(255), unique=True, nullable=False)
-    children = db.relationship('Category', backref=backref('parent', remote_side=[id]))
+    children = db.relationship('Category', backref=db.backref('parent', remote_side=[id]))
 
     def __init__(self, name, account_id):
         self.name = name

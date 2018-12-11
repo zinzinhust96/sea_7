@@ -58,3 +58,7 @@ def response(status, message, status_code):
         'status': status,
         'message': message
     })), status_code
+
+
+def get_dict_value_by_key(d, *args):
+    return (d[arg] for arg in args)

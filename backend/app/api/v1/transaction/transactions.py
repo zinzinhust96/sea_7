@@ -1,9 +1,9 @@
-from flask import request, _request_ctx_stack
+from flask import request, make_response, jsonify
 from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError
-from app.models import AccountFactory, User
-from app.api.v1.account.response_helpers import response_created_account, response_paginate_accounts
-from app.api.general_helpers import token_required, response, check_content_type
+from app.models import Transaction, Account
+from app.api.v1.transaction.response_helpers import response_created_transaction, response_paginate_transactions
+from app.api.general_helpers import token_required, response, check_content_type, get_dict_value_by_key
 
 
 class Transactions(MethodView):
@@ -76,11 +76,10 @@ class Transactions(MethodView):
                 "total": 2
             }
         """
-        ctx = _request_ctx_stack.top
-        current_user = ctx.user
-        user = User.get_by_id(current_user.id)
+        account_id = request.args.get('id', type=int)
         page = request.args.get('page', 1, type=int)
-        return response_paginate_accounts(user, page)
+        account = Account.get_by_id(account_id)
+        return response_paginate_transactions(account, page)
 
     def post(self):
         """
@@ -132,36 +131,22 @@ class Transactions(MethodView):
                 "type": "credit"
             }
         """
-        ctx = _request_ctx_stack.top
-        current_user = ctx.user
         request_body = request.get_json()
-        name = request_body.get('name')
-        account_type = request_body.get('type')
-        initial_balance = request_body.get('ini_bal')
-        if name:
-            try:
-                acc_factory = AccountFactory()
-                if account_type == 'credit':
-                    limit = request_body.get('limit')
-                    if limit is None:
-                        return response('failed', 'Please specify a credit limit for a credit account', 400)
-                    new_account = acc_factory.create_account(
-                        name=name,
-                        account_type=account_type,
-                        user_id=current_user.id,
-                        initial_balance=initial_balance,
-                        limit=limit
-                    )
-                else:
-                    new_account = acc_factory.create_account(
-                        name=name,
-                        account_type=account_type,
-                        user_id=current_user.id,
-                        initial_balance=initial_balance
-                    )
-                new_account.save()
-            except IntegrityError:
-                return response('failed', 'Duplicate account name', 400)
-            else:
-                return response_created_account(new_account, 200)
-        return response('failed', 'Missing account name attribute', 400)
+        acc_id, cat_id, trans_type, note, amount = get_dict_value_by_key(request_body, 'acc_id', 'cat_id', 'trans_type', 'note', 'amount')
+        try:
+            account = Account.get_by_id(acc_id)
+            cur_bal = account.get_current_balance()
+            new_transaction = Transaction.create(
+                account_id=acc_id,
+                category_id=cat_id,
+                transaction_type=trans_type,
+                note=note,
+                amount=amount,
+                pre_transaction_balance=cur_bal
+            )
+            new_transaction.save()
+            account.update_balance(trans_type, amount)
+        except ValueError:
+            return response('failed', 'Failed to create transaction, please check your balance', 400)
+        else:
+            return response_created_transaction(new_transaction, 200)

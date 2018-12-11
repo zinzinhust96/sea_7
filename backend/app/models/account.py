@@ -1,5 +1,6 @@
 from app import app, db
 from datetime import datetime, timedelta
+from .types import TransactionType
 
 
 class Account(db.Model):
@@ -17,6 +18,7 @@ class Account(db.Model):
     current_balance = db.Column(db.BigInteger, nullable=False)
     saving_duration = db.Column(db.Interval)
     saving_interest_rate = db.Column(db.Float)
+    transactions = db.relationship('Transaction', backref='transaction', lazy='dynamic')
 
     __mapper_args__ = {
         'polymorphic_identity': 'cash',
@@ -40,6 +42,37 @@ class Account(db.Model):
         """
         db.session.add(self)
         db.session.commit()
+
+    def get_paginated_transactions(self, page):
+        """
+        Get an account's transactions and also paginate the results.
+        :param page: Page number
+        :return: Accounts of the user.
+        """
+        paginated_transactions_list = self.transactions.paginate(
+            page=page,
+            per_page=app.config['ITEMS_PER_PAGE'],
+            error_out=False
+        )
+        return paginated_transactions_list
+
+    @staticmethod
+    def get_by_id(account_id):
+        """
+        Filter an account by Id.
+        :param account_id:
+        :return: Account or None
+        """
+        return Account.query.filter_by(id=account_id).first()
+
+    def get_current_balance(self):
+        return self.current_balance
+
+    def update_balance(self, trans_type, amount):
+        if self.current_balance + TransactionType[trans_type] * amount > 0:
+            self.current_balance += TransactionType[trans_type] * amount
+        else:
+            raise ValueError
 
     def json(self):
         """
