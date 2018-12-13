@@ -18,6 +18,7 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'team searekt')
     BCRYPT_HASH_PREFIX = int(os.getenv('BCRYPT_HASH_PREFIX', 14))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO = bool(os.getenv('SQLALCHEMY_ECHO', False))
     SQLALCHEMY_DATABASE_URI = os.getenv('DB_URL', db_string)
     AUTH_TOKEN_EXPIRY_DAYS = int(os.getenv('AUTH_TOKEN_EXPIRY_DAYS', 1))
     AUTH_TOKEN_EXPIRY_SECONDS= int(os.getenv('AUTH_TOKEN_EXPIRY_SECONDS', 30))
