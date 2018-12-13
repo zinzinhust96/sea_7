@@ -1,6 +1,6 @@
-from enum import Enum
+import enum
 
 
-class TransactionType(Enum):
+class TransactionType(enum.Enum):
     SPEND = -1
     INCOME = 1

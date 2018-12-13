@@ -19,18 +19,17 @@ class Transaction(db.Model):
     pre_transaction_balance = db.Column(db.BigInteger, nullable=False)
     category = db.relationship('Category', backref=db.backref('transactions', uselist=False))
 
-    def __init__(self, account_id, category_id, transaction_type, note, amount, pre_transaction_balance):
-        self.account_id = account_id
-        self.category_id = category_id
-        self.transaction_type = TransactionType[transaction_type],
-        self.created_at = datetime.utcnow()
-        self.note = note
-        self.amount = amount
-        self.pre_transaction_balance = pre_transaction_balance
-
     @staticmethod
     def create(account_id, category_id, transaction_type, note, amount, pre_transaction_balance):
-        new_transaction = Transaction(account_id, category_id, transaction_type, note, amount, pre_transaction_balance)
+        new_transaction = Transaction(
+            account_id=account_id,
+            category_id=category_id,
+            transaction_type=TransactionType[transaction_type],
+            created_at=datetime.utcnow(),
+            note=note,
+            amount=amount,
+            pre_transaction_balance=pre_transaction_balance
+        )
         return new_transaction
 
     def save(self):
@@ -47,7 +46,7 @@ class Transaction(db.Model):
         :return:
         """
         return {
-            'type': self.transaction_type,
+            'type': self.transaction_type.name,
             'created': self.created_at.isoformat(),
             'category': self.category.name,
             'pre_bal': self.pre_transaction_balance,

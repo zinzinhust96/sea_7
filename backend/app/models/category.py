@@ -10,16 +10,22 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     parent_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-    name = db.Column(db.String(255), unique=True, nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    type = db.Column(db.String(32), server_default='Other', nullable=False)
     children = db.relationship('Category', backref=db.backref('parent', remote_side=[id]))
 
-    def __init__(self, name, account_id):
+    __table_args__ = (
+        db.UniqueConstraint('name', 'type', name='unique_name_type'),
+    )
+
+    def __init__(self, name, typ, account_id=None):
         self.name = name
+        self.type = typ
         self.account_id = account_id
 
     @staticmethod
-    def create(name, account_id):
-        new_category = Category(name, account_id)
+    def create(name, typ, account_id):
+        new_category = Category(name, typ, account_id)
         return new_category
 
     def save(self):
@@ -30,12 +36,22 @@ class Category(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    @staticmethod
+    def get_default_categories():
+        """
+        Get all default categories.
+        :return: Categories
+        """
+        return Category.query.filter_by(account_id=None, parent_id=None).all()
+
     def json(self):
         """
         JSON representation.
         :return:
         """
         return {
+            'id': self.id,
             'name': self.name,
-            'children': [item.json() for item in self.children]
+            'type': self.type,
+            'subcategories': [item.json() for item in self.children]
         }

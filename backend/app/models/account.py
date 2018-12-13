@@ -11,7 +11,7 @@ class Account(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     account_type = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     initial_balance = db.Column(db.BigInteger, nullable=False)
@@ -19,6 +19,7 @@ class Account(db.Model):
     saving_duration = db.Column(db.Interval)
     saving_interest_rate = db.Column(db.Float)
     transactions = db.relationship('Transaction', backref='transaction', lazy='dynamic')
+    categories = db.relationship('Category', backref='category', lazy='dynamic')
 
     __mapper_args__ = {
         'polymorphic_identity': 'cash',
@@ -57,20 +58,28 @@ class Account(db.Model):
         return paginated_transactions_list
 
     @staticmethod
-    def get_by_id(account_id):
+    def get_by_id(account_id, user_id):
         """
         Filter an account by Id.
         :param account_id:
         :return: Account or None
         """
-        return Account.query.filter_by(id=account_id).first()
+        return Account.query.filter_by(id=account_id, user_id=user_id).first()
+
+    def get_categories(self):
+        """
+        Get an account's categories
+        :return: Categories
+        """
+        return self.categories
 
     def get_current_balance(self):
         return self.current_balance
 
     def update_balance(self, trans_type, amount):
-        if self.current_balance + TransactionType[trans_type] * amount > 0:
-            self.current_balance += TransactionType[trans_type] * amount
+        if self.current_balance + TransactionType[trans_type].value * amount >= 0:
+            self.current_balance += TransactionType[trans_type].value * amount
+            db.session.commit()
         else:
             raise ValueError
 
@@ -107,6 +116,13 @@ class CreditAccount(Account):
     def __init__(self, limit, **kwargs):
         super().__init__(**kwargs)
         self.limit = limit
+
+    def update_balance(self, trans_type, amount):
+        if self.current_balance + TransactionType[trans_type].value * amount + self.limit >= 0:
+            self.current_balance += TransactionType[trans_type].value * amount
+            db.session.commit()
+        else:
+            raise ValueError
 
     def json(self):
         """
