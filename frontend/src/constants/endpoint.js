@@ -7,3 +7,9 @@ export const REGISTER_URL = `${BACKEND_API}/api/v1/auth/register`
 
 // account
 export const CREATE_ACCOUNT_URL = `${BACKEND_API}/api/v1/accounts`
+
+// categogies
+export const GET_CATEGORIES_BY_ACCOUNT_URL = accountId => `${BACKEND_API}/api/v1/categories/${accountId}`
+
+// transactions
+export const CREATE_TRANSACTION_URL = `${BACKEND_API}/api/v1/transactions`

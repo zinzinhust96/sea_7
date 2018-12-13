@@ -8,11 +8,16 @@ const Form = styled.form`
   .form-control {
     color: #000;
   }
+  .form-control:disabled {
+    background-color: #e9ecef;
+    color: #5c6873;
+    cursor: not-allowed;
+  }
 `
 
 const TRANSACTION_TYPES = {
-  SPEND: 'spend',
-  INCOME: 'income',
+  SPEND: 'SPEND',
+  INCOME: 'INCOME',
 }
 
 const getCurrentDateTime = () => `${new Date().getFullYear()}-${`${new Date().getMonth()
@@ -25,9 +30,9 @@ const getCurrentDateTime = () => `${new Date().getFullYear()}-${`${new Date().ge
 )}:${`${new Date().getMinutes()}`.padStart(2, 0)}`
 
 const RenderMultilevelSelect = ({ list, index }) => list.map((item) => {
-  if (item.children.length === 0) {
+  if (item.subcategories.length === 0) {
     return (
-      <option key={item.name} value={item.name} className="option-child">
+      <option key={item.name} value={item.name} className={index === 0 ? 'option-group' : 'option-child'}>
         {`${renderDash(index * 3)} ${item.name}`}
       </option>
     )
@@ -36,7 +41,7 @@ const RenderMultilevelSelect = ({ list, index }) => list.map((item) => {
     <option value={item.name} className="option-group">
       {`${renderDash(index * 3)} ${item.name}`}
     </option>
-    <RenderMultilevelSelect list={item.children} index={index + 1} />
+    <RenderMultilevelSelect list={item.subcategories} index={index + 1} />
   </React.Fragment>)
 })
 
@@ -44,18 +49,31 @@ class CreateAccountForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      amount: 0,
-      type: TRANSACTION_TYPES.SPEND,
-      account: '',
-      category: '',
+      acc_id: '',
+      trans_type: TRANSACTION_TYPES.SPEND,
+      amount: '',
+      cat_id: '',
       dateTime: getCurrentDateTime(),
       note: '',
     }
   }
 
-  handleFieldChange = (e) => {
+  handleAccountChange = async (e) => {
+    this.setState({
+      acc_id: parseFloat(e.target.value),
+    })
+    this.props.getCategoriesByAccount(e.target.value)
+  }
+
+  handleTextFieldChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value,
+    })
+  }
+
+  handleNumberFieldChange = (e) => {
+    this.setState({
+      [e.target.id]: parseFloat(e.target.value),
     })
   }
 
@@ -66,27 +84,27 @@ class CreateAccountForm extends React.PureComponent {
 
   render() {
     const {
-      amount, type, account, category, dateTime, note,
+      amount, trans_type: transType, acc_id: accountID, cat_id: categoryID, dateTime, note,
     } = this.state
     const {
-      submitting, error, success, listOfAccounts, categories,
+      submitting, error, success, listOfAccounts, listOfCategories, categoriesLoading,
     } = this.props
     return (
       <Form onSubmit={this.handleSubmitForm}>
         <div className="form-group row">
           <label htmlFor="amount" className="col-sm-2 col-form-label text-right">Amount</label>
-          <input id="amount" className="col-sm-10 form-control" name="amount" type="number" value={amount} onChange={this.handleFieldChange} required />
+          <input id="amount" className="col-sm-10 form-control" name="amount" type="number" value={amount} onChange={this.handleNumberFieldChange} placeholder="Enter your amount" required />
         </div>
         <div className="form-group row">
-          <label htmlFor="type" className="col-sm-2 col-form-label text-right">Type</label>
-          <select id="type" className="col-sm-10 form-control" name="type" value={type} onChange={this.handleFieldChange} required>
+          <label htmlFor="trans_type" className="col-sm-2 col-form-label text-right">Type</label>
+          <select id="trans_type" className="col-sm-10 form-control" name="trans_type" value={transType} onChange={this.handleTextFieldChange} required>
             <option value={TRANSACTION_TYPES.SPEND}>Spend</option>
             <option value={TRANSACTION_TYPES.INCOME}>Income</option>
           </select>
         </div>
         <div className="form-group row">
-          <label htmlFor="account" className="col-sm-2 col-form-label text-right">Account</label>
-          <select id="account" className="col-sm-10 form-control" name="account" value={account} onChange={this.handleFieldChange} required>
+          <label htmlFor="acc_id" className="col-sm-2 col-form-label text-right">Account</label>
+          <select id="acc_id" className="col-sm-10 form-control" name="acc_id" value={accountID} onChange={this.handleAccountChange} required>
             <option value="" disabled hidden>Choose an account</option>
             {listOfAccounts.map(acc => (
               <option key={acc.id} value={acc.id}>{acc.name}</option>
@@ -94,19 +112,19 @@ class CreateAccountForm extends React.PureComponent {
           </select>
         </div>
         <div className="form-group row">
-          <label htmlFor="category" className="col-sm-2 col-form-label text-right">Category</label>
-          <select id="category" className="col-sm-10 form-control" name="category" value={category} onChange={this.handleFieldChange} required>
+          <label htmlFor="cat_id" className="col-sm-2 col-form-label text-right">Category</label>
+          <select id="cat_id" disabled={categoriesLoading || listOfCategories.length === 0} className="col-sm-10 form-control" name="cat_id" value={categoryID} onChange={this.handleNumberFieldChange} required>
             <option value="" disabled hidden>Choose an category</option>
-            <RenderMultilevelSelect list={categories} index={0} />
+            <RenderMultilevelSelect list={listOfCategories} index={0} />
           </select>
         </div>
         <div className="form-group row">
           <label htmlFor="dateTime" className="col-sm-2 col-form-label text-right">Date Time</label>
-          <input id="dateTime" className="col-sm-10 form-control" name="dateTime" type="datetime-local" value={dateTime} onChange={this.handleFieldChange} required />
+          <input id="dateTime" className="col-sm-10 form-control" name="dateTime" type="datetime-local" value={dateTime} onChange={this.handleTextFieldChange} required />
         </div>
         <div className="form-group row">
           <label htmlFor="note" className="col-sm-2 col-form-label text-right">Note</label>
-          <input id="note" className="col-sm-10 form-control" name="note" value={note} onChange={this.handleFieldChange} required />
+          <input id="note" className="col-sm-10 form-control" name="note" value={note} onChange={this.handleTextFieldChange} required />
         </div>
         <div className="row mt-1">
           <div className="offset-sm-2 col-sm-10 px-0">

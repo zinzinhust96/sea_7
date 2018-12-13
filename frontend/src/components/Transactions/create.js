@@ -1,66 +1,8 @@
 import React from 'react'
+import { fetchJSON } from '../../helpers/network'
+import { CREATE_TRANSACTION_URL } from '../../constants/endpoint'
 import Form from './form'
-
-const CATEGORY = [
-  {
-    name: 'Food & Beverage',
-    children: [
-      {
-        name: 'Restaurant',
-        children: [],
-      },
-      {
-        name: 'Cafe',
-        children: [],
-      },
-    ],
-  },
-  {
-    name: 'Transportation',
-    children: [
-      {
-        name: 'Taxi',
-        children: [],
-      },
-      {
-        name: 'Parking Fees',
-        children: [],
-      },
-      {
-        name: 'Petrol',
-        children: [],
-      },
-      {
-        name: 'Maintenance',
-        children: [],
-      },
-    ],
-  },
-  {
-    name: 'Shopping',
-    children: [
-      {
-        name: 'Clothing',
-        children: [],
-      },
-      {
-        name: 'Footwear',
-        children: [{
-          name: 'Sneaker',
-          children: [],
-        }],
-      },
-      {
-        name: 'Accessories',
-        children: [],
-      },
-      {
-        name: 'Electronics',
-        children: [],
-      },
-    ],
-  },
-]
+import { authHeader } from '../../helpers/auth-header';
 
 class CreateTransaction extends React.PureComponent {
   state = {
@@ -73,6 +15,36 @@ class CreateTransaction extends React.PureComponent {
     this.props.getAllAccounts();
   }
 
+  onSubmit = async (data) => {
+    this.setState({ submitting: true })
+    try {
+      const response = await fetchJSON(CREATE_TRANSACTION_URL, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...authHeader(),
+        },
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      if (response.status) {
+        this.setState({
+          success: 'Your account has been successfully created!',
+          submitting: false,
+        })
+      } else {
+        this.setState({
+          error: 'There is an error when submitting your data',
+          submitting: false,
+        })
+      }
+    } catch (e) {
+      this.setState({
+        error: 'There is an error when submitting your data',
+        submitting: false,
+      })
+    }
+  }
+
   render() {
     const { error, success, submitting } = this.state
     return (
@@ -83,7 +55,6 @@ class CreateTransaction extends React.PureComponent {
             success={success}
             error={error}
             submitting={submitting}
-            categories={CATEGORY}
             {...this.props}
           />
         </div>
