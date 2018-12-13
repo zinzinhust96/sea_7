@@ -57,7 +57,9 @@ from app.api import error_handlers
 from app.api.v1.auth import auth
 from app.api.v1.account import account
 from app.api.v1.transaction import transaction
+from app.api.v1.category import category
 
 app.register_blueprint(auth, url_prefix='/api/v1')
 app.register_blueprint(account, url_prefix='/api/v1')
 app.register_blueprint(transaction, url_prefix='/api/v1')
+app.register_blueprint(category, url_prefix='/api/v1')

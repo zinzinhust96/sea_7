@@ -15,7 +15,7 @@ def response_created_transaction(new_transaction, status_code):
     return make_response(jsonify({**status, **new_trans_info})), status_code
 
 
-def response_paginate_transactions(account, page):
+def response_paginate_transactions(account, page, status_code):
     """
     Get an user's account and also paginate the results.
     Generate previous and next pagination urls
@@ -43,4 +43,4 @@ def response_paginate_transactions(account, page):
         'next': None,
         'total': 0,
         'transactions': []
-    }))
+    })), status_code

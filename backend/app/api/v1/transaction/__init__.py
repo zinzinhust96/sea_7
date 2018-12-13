@@ -9,7 +9,7 @@ transactions_view = Transactions.as_view('transactions')
 
 # Add rules for the api Endpoints
 transaction.add_url_rule('/transactions', view_func=transactions_view, methods=['POST'])
-transaction.add_url_rule('/transactions', view_func=transactions_view, methods=['GET'])
+transaction.add_url_rule('/transactions/<int:acc_id>', view_func=transactions_view, methods=['GET'])
 
 
 @transaction.errorhandler(404)
