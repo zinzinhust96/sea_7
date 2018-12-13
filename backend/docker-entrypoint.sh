@@ -7,8 +7,11 @@ while true; do
     if [[ "$?" == "0" ]]; then
         break
     fi
-    echo Upgrade command failed, retrying in 5 secs...
+    echo Waiting for database, retrying in 5 secs...
     sleep 5
 done
+echo Successfully migrated database
+
+python seed.py
 
 exec "$@"
