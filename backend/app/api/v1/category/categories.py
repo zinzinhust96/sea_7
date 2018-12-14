@@ -57,16 +57,16 @@ class Categories(MethodView):
                                 "id": 28,
                                 "name": "Restaurants",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             },
                             {
                                 "id": 29,
                                 "name": "Café",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             }
                         ],
-                        "type": "Expense"
+                        "type": "expense"
                     },
                     {
                         "id": 2,
@@ -76,46 +76,46 @@ class Categories(MethodView):
                                 "id": 30,
                                 "name": "Phone",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             },
                             {
                                 "id": 31,
                                 "name": "Water",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             },
                             {
                                 "id": 32,
                                 "name": "Electricity",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             },
                             {
                                 "id": 33,
                                 "name": "Gas",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             },
                             {
                                 "id": 34,
                                 "name": "Television",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             },
                             {
                                 "id": 35,
                                 "name": "Internet",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             },
                             {
                                 "id": 36,
                                 "name": "Rental",
                                 "subcategories": [],
-                                "type": "Expense"
+                                "type": "expense"
                             }
                         ],
-                        "type": "Expense"
+                        "type": "expense"
                     }
                 ],
                 "status": "success"
