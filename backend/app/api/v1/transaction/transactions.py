@@ -109,7 +109,7 @@ class Transactions(MethodView):
             "acc_id": 13,
             "cat_id": 20,
             "trans_type": "INCOME",
-            "created_at": "2018-12-14T03:55:30.782Z"
+            "created_at": "2018-12-14T03:55"
             "note": "note",
             "amount": 60000000
         }
@@ -134,7 +134,7 @@ class Transactions(MethodView):
             {
                 "amount": 60000000,
                 "category": "Salary",
-                "created": "2018-12-12T17:40:38",
+                "created": "2018-12-14T03:55:00",
                 "note": "note",
                 "pre_bal": 40000,
                 "status": "success",
