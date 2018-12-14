@@ -37,12 +37,12 @@ class Category(db.Model):
         db.session.commit()
 
     @staticmethod
-    def get_default_categories():
+    def get_default_categories(typ):
         """
         Get all default categories.
         :return: Categories
         """
-        return Category.query.filter_by(account_id=None, parent_id=None).all()
+        return Category.query.filter_by(account_id=None, parent_id=None, type=typ).all() if typ else Category.query.filter_by(account_id=None, parent_id=None).all()
 
     def json(self):
         """

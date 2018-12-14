@@ -20,12 +20,12 @@ class Transaction(db.Model):
     category = db.relationship('Category', backref=db.backref('transactions', uselist=False))
 
     @staticmethod
-    def create(account_id, category_id, transaction_type, note, amount, pre_transaction_balance):
+    def create(account_id, category_id, transaction_type, created_at, note, amount, pre_transaction_balance):
         new_transaction = Transaction(
             account_id=account_id,
             category_id=category_id,
             transaction_type=TransactionType[transaction_type],
-            created_at=datetime.utcnow(),
+            created_at=datetime.strptime(created_at, '%Y-%m-%dT%H:%M'),
             note=note,
             amount=amount,
             pre_transaction_balance=pre_transaction_balance

@@ -27,6 +27,7 @@ class Categories(MethodView):
         }
 
         @apiParam {Number} id Account ID
+        @apiParam {String="expense","income"} [type] Category type
 
         @apiSuccess (Success) {Object[]} categories List of categories
         @apiSuccess (Success) {String} categories.id Category ID
@@ -39,6 +40,10 @@ class Categories(MethodView):
         @apiExample cURL example
         $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer auth_token_here"
             http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/categories/13
+
+        @apiExample cURL example with params
+        $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer auth_token_here"
+            http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/categories/13?type=expense
 
         @apiSuccessExample {json} Success-Response:
             HTTP/1.0 200 OK
@@ -121,7 +126,8 @@ class Categories(MethodView):
         account = Account.get_by_id(acc_id, current_user.id)
         if account is None:
             return response('failed', 'This account belongs to another user', 401)
-        default_categories = Category.get_default_categories()
-        account_categories = account.get_categories()
+        category_type = request.args.get('type')
+        default_categories = Category.get_default_categories(category_type)
+        account_categories = account.get_categories(category_type)
         all_categories = [*default_categories, *account_categories]
         return response_get_categories(all_categories, 200)

@@ -100,6 +100,7 @@ class Transactions(MethodView):
         @apiParam {Number} acc_id Account ID
         @apiParam {Number} cat_id Category ID
         @apiParam {String="SPEND","INCOME"} trans_type Transaction type
+        @apiParam {String} created_at Create time
         @apiParam {String} note Note
         @apiParam {Number} amount Amount
 
@@ -108,6 +109,7 @@ class Transactions(MethodView):
             "acc_id": 13,
             "cat_id": 20,
             "trans_type": "INCOME",
+            "created_at": "2018-12-14T03:55:30.782Z"
             "note": "note",
             "amount": 60000000
         }
@@ -142,7 +144,7 @@ class Transactions(MethodView):
         ctx = _request_ctx_stack.top
         current_user = ctx.user
         request_body = request.get_json()
-        acc_id, cat_id, trans_type, note, amount = get_dict_value_by_key(request_body, 'acc_id', 'cat_id', 'trans_type', 'note', 'amount')
+        acc_id, cat_id, trans_type, created_at, note, amount = get_dict_value_by_key(request_body, 'acc_id', 'cat_id', 'trans_type', 'created_at', 'note', 'amount')
         try:
             account = Account.get_by_id(acc_id, current_user.id)
             if account is None:
@@ -152,6 +154,7 @@ class Transactions(MethodView):
                 account_id=acc_id,
                 category_id=cat_id,
                 transaction_type=trans_type,
+                created_at=created_at,
                 note=note,
                 amount=amount,
                 pre_transaction_balance=cur_bal

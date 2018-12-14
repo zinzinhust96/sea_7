@@ -66,12 +66,12 @@ class Account(db.Model):
         """
         return Account.query.filter_by(id=account_id, user_id=user_id).first()
 
-    def get_categories(self):
+    def get_categories(self, typ):
         """
         Get an account's categories
         :return: Categories
         """
-        return self.categories
+        return list(filter(lambda cat: cat.type == typ, self.categories)) if typ else self.categories
 
     def get_current_balance(self):
         return self.current_balance
