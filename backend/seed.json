@@ -1,6 +1,6 @@
 {
   "categories": {
-    "Expense": [
+    "expense": [
       {
         "name": "Food & Beverage",
         "children": [
@@ -110,7 +110,7 @@
         "children": []
       }
     ],
-  "Income": [
+  "income": [
       {
         "name": "Award",
         "children": []
@@ -133,24 +133,6 @@
       },
       {
         "name": "Others",
-        "children": []
-      }
-    ],
-    "Debt/Loan": [
-      {
-        "name": "Loan",
-        "children": []
-      },
-      {
-        "name": "Repayment",
-        "children": []
-      },
-      {
-        "name": "Debt",
-        "children": []
-      },
-      {
-        "name": "Debt Collection",
         "children": []
       }
     ]

@@ -47,7 +47,7 @@ class Transaction(db.Model):
         """
         return {
             'type': self.transaction_type.name,
-            'created': self.created_at.isoformat(),
+            'created_at': self.created_at.isoformat(),
             'category': self.category.name,
             'pre_bal': self.pre_transaction_balance,
             'note': self.note,

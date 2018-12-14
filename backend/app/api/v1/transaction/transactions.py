@@ -1,7 +1,7 @@
 from flask import request, make_response, jsonify, _request_ctx_stack
 from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError
-from app.models import Transaction, Account
+from app.models import Transaction, Account, Category
 from app.api.v1.transaction.response_helpers import response_created_transaction, response_paginate_transactions
 from app.api.general_helpers import token_required, response, check_content_type, get_dict_value_by_key
 
@@ -29,12 +29,12 @@ class Transactions(MethodView):
         @apiParam {Number} id Account ID
 
         @apiSuccess (Success) {Object[]} transactions List of transactions
-        @apiSuccess (Success) {String} transactions.created Date created
+        @apiSuccess (Success) {String} transactions.created_at Date created
         @apiSuccess (Success) {Number} transactions.amount Amount (in VND)
         @apiSuccess (Success) {String} transactions.category Category
         @apiSuccess (Success) {String} transactions.note Note
         @apiSuccess (Success) {Number} transactions.pre_bal Pre-transaction balance
-        @apiSuccess (Success) {String} transactions.type Transaction type (SPEND or INCOME)
+        @apiSuccess (Success) {String="expense","income"} transactions.type Transaction type
         @apiSuccess (Success) {String} next Next page
         @apiSuccess (Success) {String} previous Previous page
         @apiSuccess (Success) {String} status Status
@@ -57,18 +57,18 @@ class Transactions(MethodView):
                     {
                         "amount": 60000,
                         "category": "Bill & Utilities",
-                        "created": "2018-12-12T17:38:47",
+                        "created_at": "2018-12-12T17:38:47",
                         "note": "note",
                         "pre_bal": 100000,
-                        "type": "SPEND"
+                        "type": "expense"
                     },
                     {
                         "amount": 60000000,
                         "category": "Salary",
-                        "created": "2018-12-12T17:40:38",
+                        "created_at": "2018-12-12T17:40:38",
                         "note": "note",
                         "pre_bal": 40000,
-                        "type": "INCOME"
+                        "type": "income"
                     }
                 ]
             }
@@ -99,7 +99,6 @@ class Transactions(MethodView):
 
         @apiParam {Number} acc_id Account ID
         @apiParam {Number} cat_id Category ID
-        @apiParam {String="SPEND","INCOME"} trans_type Transaction type
         @apiParam {String} created_at Create time
         @apiParam {String} note Note
         @apiParam {Number} amount Amount
@@ -108,25 +107,24 @@ class Transactions(MethodView):
         {
             "acc_id": 13,
             "cat_id": 20,
-            "trans_type": "INCOME",
-            "created_at": "2018-12-14T03:55"
+            "created_at": "2018-12-14T03:55",
             "note": "note",
             "amount": 60000000
         }
 
-        @apiSuccess (Success) {String} created Date created
+        @apiSuccess (Success) {String} created_at Date created
         @apiSuccess (Success) {Number} pre_bal Pre-transaction balance
         @apiSuccess (Success) {String} category Category
         @apiSuccess (Success) {String} note Note
         @apiSuccess (Success) {Number} amount Amount
         @apiSuccess (Success) {String} status Status
-        @apiSuccess (Success) {String} type Transaction type
+        @apiSuccess (Success) {String="expense","income"} type Transaction type
 
         @apiSampleRequest /api/v1/transactions
 
         @apiExample cURL example
         $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer auth_token_here" -X POST
-            -d '{"acc_id": 13, "cat_id": 20, "trans_type": "INCOME", "note": "note", "amount": 60000000}'
+            -d '{"acc_id": 13, "cat_id": 20, "note": "note", "amount": 60000000}'
             http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/transactions
 
         @apiSuccessExample {json} Success-Response:
@@ -134,33 +132,34 @@ class Transactions(MethodView):
             {
                 "amount": 60000000,
                 "category": "Salary",
-                "created": "2018-12-14T03:55:00",
+                "created_at": "2018-12-14T03:55:00",
                 "note": "note",
                 "pre_bal": 40000,
                 "status": "success",
-                "type": "INCOME"
+                "type": "income"
             }
         """
         ctx = _request_ctx_stack.top
         current_user = ctx.user
         request_body = request.get_json()
-        acc_id, cat_id, trans_type, created_at, note, amount = get_dict_value_by_key(request_body, 'acc_id', 'cat_id', 'trans_type', 'created_at', 'note', 'amount')
+        acc_id, cat_id, created_at, note, amount = get_dict_value_by_key(request_body, 'acc_id', 'cat_id', 'created_at', 'note', 'amount')
         try:
             account = Account.get_by_id(acc_id, current_user.id)
             if account is None:
                 return response('failed', 'This account belongs to another user', 401)
+            category = Category.get_by_id(cat_id)
             cur_bal = account.get_current_balance()
             new_transaction = Transaction.create(
                 account_id=acc_id,
                 category_id=cat_id,
-                transaction_type=trans_type,
                 created_at=created_at,
+                transaction_type=category.type,
                 note=note,
                 amount=amount,
                 pre_transaction_balance=cur_bal
             )
             new_transaction.save()
-            account.update_balance(trans_type, amount)
+            account.update_balance(category.type, amount)
         except ValueError:
             return response('failed', 'Failed to create transaction, please check your balance', 400)
         else:

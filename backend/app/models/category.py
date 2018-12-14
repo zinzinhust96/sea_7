@@ -37,6 +37,10 @@ class Category(db.Model):
         db.session.commit()
 
     @staticmethod
+    def get_by_id(cat_id):
+        return Category.query.filter_by(id=cat_id).first()
+
+    @staticmethod
     def get_default_categories(typ):
         """
         Get all default categories.
