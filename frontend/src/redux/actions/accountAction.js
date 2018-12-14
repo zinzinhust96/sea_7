@@ -23,10 +23,10 @@ export function getAllAccounts() {
         },
         method: 'GET',
       });
-      if (response.status) {
+      if (response.status === 'success') {
         dispatch(success(response.accounts))
       } else {
-        console.error('There is an error when get your data')
+        dispatch(alertActions.error(response.message));
       }
     } catch (error) {
       dispatch(failure(error));

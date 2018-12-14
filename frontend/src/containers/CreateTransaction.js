@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getAllAccounts: () => dispatch(getAllAccounts()),
-    getCategoriesByAccount: accountID => dispatch(getCategoriesByAccount(accountID)),
+    getCategoriesByAccount: (accountID, transType) => dispatch(getCategoriesByAccount(accountID, transType)),
   }
 }
 

@@ -28,7 +28,7 @@ class CreateTransaction extends React.PureComponent {
       })
       if (response.status) {
         this.setState({
-          success: 'Your account has been successfully created!',
+          success: 'Your transaction has been successfully created!',
           submitting: false,
         })
       } else {
