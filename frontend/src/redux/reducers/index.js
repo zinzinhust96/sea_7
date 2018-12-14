@@ -3,10 +3,12 @@ import alert from './alert';
 import authentication from './authentication';
 import accounts from './accounts'
 import categories from './categories'
+import transactions from './transactions'
 
 export default combineReducers({
   alert,
   authentication,
   accounts,
   categories,
+  transactions,
 });

@@ -27,10 +27,6 @@ export default {
       icon: 'fa fa-exchange',
       children: [
         {
-          name: 'Transactions History',
-          url: '/transactions',
-        },
-        {
           name: 'Create transaction',
           url: '/transactions/create',
         },

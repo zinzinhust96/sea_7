@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 import {
   Card, CardBody, CardHeader, Col, Row, Table,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import { vndFormat, dateFormat } from '../../helpers/textFormatter'
 
 function UserRow(props) {
   const account = props.user;
+  const accountLink = `/accounts/${account.id}`
+
   if (account) {
     return (
       <tr>
+        <th><Link to={accountLink}>{(account.id)}</Link></th>
         <th>{dateFormat(account.created)}</th>
-        <td>{account.name}</td>
+        <td><Link to={accountLink}>{account.name}</Link></td>
         <td>{vndFormat(account.ini_bal)}</td>
         <td>{vndFormat(account.limit || 'N/A')}</td>
       </tr>
@@ -19,6 +23,7 @@ function UserRow(props) {
   }
   return (
     <tr>
+      <th>0</th>
       <th>0</th>
       <td>0</td>
       <td>0</td>
@@ -47,6 +52,7 @@ class ListAccount extends Component {
                 <Table responsive hover>
                   <thead>
                     <tr>
+                      <th scope="col">Id</th>
                       <th scope="col">Created</th>
                       <th scope="col">Account Name</th>
                       <th scope="col">Balance</th>

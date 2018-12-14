@@ -15,11 +15,12 @@ const routes = [
     path: '/accounts', exact: true, name: 'List all accounts', component: Accounts,
   },
   {
-    path: '/accounts/create', exact: true, name: 'Create new account', component: CreateAccount,
+    path: '/accounts/:id', exact: true, name: 'Transactions History', component: TransactionsHistory,
   },
   {
-    path: '/transactions', exact: true, name: 'Transactions History', component: TransactionsHistory,
+    path: '/accounts/create', exact: true, name: 'Create new account', component: CreateAccount,
   },
+
   {
     path: '/transactions/create', exact: true, name: 'Create transaction', component: CreateTransaction,
   },
