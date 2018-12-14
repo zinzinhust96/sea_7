@@ -18,7 +18,7 @@ class Account(db.Model):
     current_balance = db.Column(db.BigInteger, nullable=False)
     saving_duration = db.Column(db.Interval)
     saving_interest_rate = db.Column(db.Float)
-    transactions = db.relationship('Transaction', backref='transaction', lazy='dynamic')
+    transactions = db.relationship('Transaction', order_by="desc(Transaction.created_at)", backref='transaction', lazy='dynamic')
     categories = db.relationship('Category', backref='category', lazy='dynamic')
 
     __mapper_args__ = {
