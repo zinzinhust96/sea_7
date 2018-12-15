@@ -80,6 +80,7 @@ class Account(db.Model):
         if self.current_balance + TransactionType[trans_type].value * amount >= 0:
             self.current_balance += TransactionType[trans_type].value * amount
             db.session.commit()
+            return self.current_balance
         else:
             raise ValueError
 
@@ -121,6 +122,7 @@ class CreditAccount(Account):
         if self.current_balance + TransactionType[trans_type].value * amount + self.limit >= 0:
             self.current_balance += TransactionType[trans_type].value * amount
             db.session.commit()
+            return self.current_balance
         else:
             raise ValueError
 

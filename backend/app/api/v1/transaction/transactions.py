@@ -34,6 +34,7 @@ class Transactions(MethodView):
         @apiSuccess (Success) {String} transactions.category Category
         @apiSuccess (Success) {String} transactions.note Note
         @apiSuccess (Success) {Number} transactions.pre_bal Pre-transaction balance
+        @apiSuccess (Success) {Number} transactions.post_bal Post-transaction balance
         @apiSuccess (Success) {String="expense","income"} transactions.type Transaction type
         @apiSuccess (Success) {String} next Next page
         @apiSuccess (Success) {String} previous Previous page
@@ -60,6 +61,7 @@ class Transactions(MethodView):
                         "created_at": "2018-12-12T17:38:47",
                         "note": "note",
                         "pre_bal": 100000,
+                        "post_bal": 160000,
                         "type": "expense"
                     },
                     {
@@ -68,6 +70,7 @@ class Transactions(MethodView):
                         "created_at": "2018-12-12T17:40:38",
                         "note": "note",
                         "pre_bal": 40000,
+                        "post_bal": 60040000,
                         "type": "income"
                     }
                 ]
@@ -114,6 +117,7 @@ class Transactions(MethodView):
 
         @apiSuccess (Success) {String} created_at Date created
         @apiSuccess (Success) {Number} pre_bal Pre-transaction balance
+        @apiSuccess (Success) {Number} post_bal Post-transaction balance
         @apiSuccess (Success) {String} category Category
         @apiSuccess (Success) {String} note Note
         @apiSuccess (Success) {Number} amount Amount
@@ -135,6 +139,7 @@ class Transactions(MethodView):
                 "created_at": "2018-12-14T03:55:00",
                 "note": "note",
                 "pre_bal": 40000,
+                "post_bal": 60040000,
                 "status": "success",
                 "type": "income"
             }
@@ -149,6 +154,10 @@ class Transactions(MethodView):
                 return response('failed', 'This account belongs to another user', 401)
             category = Category.get_by_id(cat_id)
             cur_bal = account.get_current_balance()
+            post_bal = account.update_balance(category.type, amount)
+        except ValueError:
+            return response('failed', 'Failed to create transaction, please check your balance', 400)
+        else:
             new_transaction = Transaction.create(
                 account_id=acc_id,
                 category_id=cat_id,
@@ -156,11 +165,8 @@ class Transactions(MethodView):
                 transaction_type=category.type,
                 note=note,
                 amount=amount,
-                pre_transaction_balance=cur_bal
+                pre_transaction_balance=cur_bal,
+                post_transaction_balance=post_bal
             )
             new_transaction.save()
-            account.update_balance(category.type, amount)
-        except ValueError:
-            return response('failed', 'Failed to create transaction, please check your balance', 400)
-        else:
             return response_created_transaction(new_transaction, 200)

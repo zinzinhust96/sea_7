@@ -17,10 +17,11 @@ class Transaction(db.Model):
     note = db.Column(db.String(1000))
     amount = db.Column(db.BigInteger, nullable=False)
     pre_transaction_balance = db.Column(db.BigInteger, nullable=False)
+    post_transaction_balance = db.Column(db.BigInteger, nullable=False)
     category = db.relationship('Category', backref=db.backref('transactions', uselist=False))
 
     @staticmethod
-    def create(account_id, category_id, transaction_type, created_at, note, amount, pre_transaction_balance):
+    def create(account_id, category_id, transaction_type, created_at, note, amount, pre_transaction_balance, post_transaction_balance):
         new_transaction = Transaction(
             account_id=account_id,
             category_id=category_id,
@@ -28,7 +29,8 @@ class Transaction(db.Model):
             created_at=datetime.strptime(created_at, '%Y-%m-%dT%H:%M'),
             note=note,
             amount=amount,
-            pre_transaction_balance=pre_transaction_balance
+            pre_transaction_balance=pre_transaction_balance,
+            post_transaction_balance=post_transaction_balance
         )
         return new_transaction
 
@@ -50,6 +52,7 @@ class Transaction(db.Model):
             'created_at': self.created_at.isoformat(),
             'category': self.category.name,
             'pre_bal': self.pre_transaction_balance,
+            'post_bal': self.post_transaction_balance,
             'note': self.note,
             'amount': self.amount
         }
