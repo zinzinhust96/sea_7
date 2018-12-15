@@ -8,7 +8,7 @@ import { vndFormat, dateFormat } from '../../helpers/textFormatter'
 
 function UserRow(props) {
   const account = props.user;
-  const accountLink = `/accounts/${account.id}`
+  const accountLink = `/transactions_history/${account.id}`
 
   if (account) {
     return (
