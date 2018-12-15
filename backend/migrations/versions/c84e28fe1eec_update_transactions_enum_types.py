@@ -19,7 +19,6 @@ def upgrade():
     op.execute("UPDATE `transactions` SET `transaction_type` = 'expense' WHERE `transaction_type` = 'SPEND'")
     op.execute("UPDATE `transactions` SET `transaction_type` = 'income' WHERE `transaction_type` = 'INCOME'")
     op.execute("ALTER TABLE `transactions` CHANGE `transaction_type` `transaction_type` ENUM('expense', 'income') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;")
-    pass
 
 
 def downgrade():
@@ -27,4 +26,3 @@ def downgrade():
     op.execute("UPDATE `transactions` SET `transaction_type` = 'SPEND' WHERE `transaction_type` = 'expense'")
     op.execute("UPDATE `transactions` SET `transaction_type` = 'INCOME' WHERE `transaction_type` = 'income'")
     op.execute("ALTER TABLE `transactions` CHANGE `transaction_type` `transaction_type` ENUM('SPEND', 'INCOME') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;")
-    pass

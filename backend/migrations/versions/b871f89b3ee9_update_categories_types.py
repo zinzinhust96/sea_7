@@ -18,10 +18,8 @@ def upgrade():
     op.execute("UPDATE `categories` SET `type` = 'expense' WHERE `type` = 'Expense';")
     op.execute("UPDATE `categories` SET `type` = 'income' WHERE `type` = 'Income';")
     op.execute("DELETE FROM `categories` WHERE `type` = 'Debt/Loan';")
-    pass
 
 
 def downgrade():
     op.execute("UPDATE `categories` SET `type` = 'Expense' WHERE `type` = 'expense';")
     op.execute("UPDATE `categories` SET `type` = 'Income' WHERE `type` = 'income';")
-    pass
