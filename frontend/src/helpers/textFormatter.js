@@ -14,3 +14,12 @@ export function dateFormat(created) {
   const date = new Date(created)
   return date.toLocaleDateString('en-US', dateOptions)
 }
+
+const dateTransactionHistory = {
+  year: 'numeric', month: 'long', day: 'numeric',
+}
+
+export function dateFormatForTransactions(created) {
+  const date = new Date(created)
+  return date.toLocaleDateString('en-US', dateTransactionHistory)
+}
