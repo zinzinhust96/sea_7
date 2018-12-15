@@ -70,7 +70,7 @@ function UserRow(props) {
     <tr>
       <td>{account.type}</td>
       <td>{account.category}</td>
-      <td>{account.amount}</td>
+      <td>{vndFormat(account.amount)}</td>
       <td>{dateFormatForTransactions(account.created_at)}</td>
       <td>{account.note || 'N/A'}</td>
       <td>{vndFormat(account.post_bal)}</td>
