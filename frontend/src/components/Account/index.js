@@ -1,75 +1,92 @@
 import React, { Component } from 'react';
 import {
-  Card, CardBody, CardHeader, Col, Row, Table,
+  Card, CardHeader, Col, Row,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Transactions from '../Transactions/index'
+import { vndFormat } from '../../helpers/textFormatter';
 
-import { vndFormat, dateFormat } from '../../helpers/textFormatter'
-
-function UserRow(props) {
-  const account = props.user;
-  const accountLink = `/transactions_history/${account.id}`
-
-  if (account) {
-    return (
-      <tr>
-        <th><Link to={accountLink}>{(account.id)}</Link></th>
-        <th>{dateFormat(account.created)}</th>
-        <td><Link to={accountLink}>{account.name}</Link></td>
-        <td>{vndFormat(account.ini_bal)}</td>
-        <td>{vndFormat(account.limit || 'N/A')}</td>
-      </tr>
-    )
+const Form = styled.form`
+  .form-control {
+    color: #000;
   }
-  return (
-    <tr>
-      <th>0</th>
-      <th>0</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  )
-}
+  .form-control:disabled {
+    background-color: #e9ecef;
+    color: #5c6873;
+    cursor: not-allowed;
+  }
+`;
 
 class ListAccount extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      acc_id: '',
+    };
+  }
+
+
   componentDidMount() {
     this.props.getAllAccounts();
   }
 
-  render() {
-    const { listOfAccounts } = this.props;
+    handleAccountChange = (e) => {
+      this.setState({
+        acc_id: parseFloat(e.target.value),
+      });
 
-    return (
-      <div className="animated fadeIn container-fluid">
-        <Row>
-          <Col xl={12}>
+      this.props.getAllTransactions(e.target.value)
+
+    }
+
+    convertObjToArr(obj) {
+      return Object.keys(obj).map(key => [obj[key]]);
+    }
+
+    render() {
+      const { listOfAccounts } = this.props;
+      const {
+        acc_id: accountID,
+      } = this.state;
+      const { listOfTransactions } = this.props;
+      if (listOfTransactions) {
+        const ListArrItem = this.convertObjToArr(listOfTransactions);
+        if (ListArrItem[ListArrItem.length - 1] !== undefined) {
+          this.state = { lastItem: ListArrItem[ListArrItem.length - 1][0].post_bal };
+        }
+      }
+      return (
+        <div className="animated fadeIn container-fluid">
+          <Row>
+
+            <Col xs="3">
+              <Form>
+                <select id="acc_id" className="col-sm-10 form-control" name="acc_id" value={accountID} onChange={this.handleAccountChange}>
+                  <option value="" disabled>Choose an account</option>
+                  {listOfAccounts.map(acc => (
+                    <option key={acc.id} value={acc.id}>{acc.name}</option>
+                  ))}
+                </select>
+
+              </Form>
+            </Col>
+
+
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify" /> List Account
+                <i className="fa fa-align-justify" />
+                   Transaction history<small className="text-muted">
+                    , (current balance: {vndFormat(this.state.lastItem || 'N/A')})</small>
               </CardHeader>
-              <CardBody>
-                <Table responsive hover>
-                  <thead>
-                    <tr>
-                      <th scope="col">Id</th>
-                      <th scope="col">Created</th>
-                      <th scope="col">Account Name</th>
-                      <th scope="col">Balance</th>
-                      <th scope="col">Credit Limit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listOfAccounts.map((account, index) => <UserRow key={index} user={account} />)}
-                  </tbody>
-                </Table>
-              </CardBody>
+
+              <Transactions listOfTransactions={listOfTransactions} />
             </Card>
-          </Col>
-        </Row>
-      </div>
-    )
-  }
+          </Row>
+
+        </div>
+      )
+    }
 }
 
 export default ListAccount;

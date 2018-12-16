@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Card, CardBody, CardHeader, Col, Row, Table,
+  CardBody, Table,
 } from 'reactstrap';
 
 import { dateFormatForTransactions, vndFormat } from '../../helpers/textFormatter';
@@ -12,7 +12,7 @@ class Transactions extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.getAllTransactions(this.props.match.params.id)
+
   }
 
   convertObjToArr(obj) {
@@ -20,22 +20,15 @@ class Transactions extends React.PureComponent {
   }
 
   render() {
+
     const { listOfTransactions } = this.props;
+    console.log('listOfTransactions', listOfTransactions)
     if (listOfTransactions) {
       const ListArrItem = this.convertObjToArr(listOfTransactions);
       if (ListArrItem[ListArrItem.length - 1] !== undefined) {
         this.state = { lastItem: ListArrItem[ListArrItem.length - 1][0].post_bal };
       }
       return (
-        <div className="animated fadeIn container-fluid">
-          <Row>
-            <Col xl={12}>
-              <Card>
-                <CardHeader>
-                  <i className="fa fa-align-justify" />
-                    Id: {this.props.match.params.id}<small className="text-muted">
-                    , (current balance: {vndFormat(this.state.lastItem || 'N/A')})</small>
-                </CardHeader>
                 <CardBody>
                   <Table responsive hover>
                     <thead>
@@ -49,14 +42,10 @@ class Transactions extends React.PureComponent {
                       </tr>
                     </thead>
                     <tbody>
-                      {listOfTransactions.map((account, index) => <UserRow key={index} account={account} />)}
+                      {listOfTransactions.reverse().map((account, index) => <UserRow key={index} account={account} />)}
                     </tbody>
                   </Table>
                 </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
       )
     }
 
