@@ -26,7 +26,7 @@ class Transaction(db.Model):
             account_id=account_id,
             category_id=category_id,
             transaction_type=TransactionType[transaction_type],
-            created_at=datetime.strptime(created_at, '%Y-%m-%dT%H:%M'),
+            created_at=datetime.strptime(created_at, '%Y-%m-%dT%H:%M:%S'),
             note=note,
             amount=amount,
             pre_transaction_balance=pre_transaction_balance,
