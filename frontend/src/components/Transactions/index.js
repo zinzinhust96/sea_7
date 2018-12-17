@@ -1,70 +1,79 @@
-import React from 'react'
+import React, { Component } from 'react';
 import {
-  CardBody, Table,
+  Card, CardHeader, Col, Row,
 } from 'reactstrap';
+import styled from 'styled-components';
+import TransactionsTable from './table'
+import { vndFormat } from '../../helpers/textFormatter';
 
-import { dateFormatForTransactions, vndFormat } from '../../helpers/textFormatter';
+const Form = styled.form`
+  .form-control {
+    color: #000;
+  }
+  .form-control:disabled {
+    background-color: #e9ecef;
+    color: #5c6873;
+    cursor: not-allowed;
+  }
+`;
 
-class Transactions extends React.PureComponent {
+class ListAccount extends Component {
   constructor(props) {
     super(props);
-    this.state = { lastItem: '' };
+
+    this.state = {
+      acc_id: '',
+    };
   }
+
 
   componentDidMount() {
-
+    this.props.getAllAccounts();
   }
 
-  convertObjToArr(obj) {
-    return Object.keys(obj).map(key => [obj[key]]);
+  handleAccountChange = (e) => {
+    this.setState({
+      acc_id: parseFloat(e.target.value),
+    });
+
+    this.props.getAllTransactions(e.target.value)
   }
 
   render() {
-
+    const { listOfAccounts } = this.props;
+    const {
+      acc_id: accountID,
+    } = this.state;
     const { listOfTransactions } = this.props;
-    console.log('listOfTransactions', listOfTransactions)
-    if (listOfTransactions) {
-      const ListArrItem = this.convertObjToArr(listOfTransactions);
-      if (ListArrItem[ListArrItem.length - 1] !== undefined) {
-        this.state = { lastItem: ListArrItem[ListArrItem.length - 1][0].post_bal };
-      }
-      return (
-                <CardBody>
-                  <Table responsive hover>
-                    <thead>
-                      <tr>
-                        <th scope="col">type</th>
-                        <th scope="col">category</th>
-                        <th scope="col">amount</th>
-                        <th scope="col">created_at</th>
-                        <th scope="col">note</th>
-                        <th scope="col">Balance</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {listOfTransactions.reverse().map((account, index) => <UserRow key={index} account={account} />)}
-                    </tbody>
-                  </Table>
-                </CardBody>
-      )
-    }
+    return (
+      <div className="animated fadeIn container-fluid">
+        <Row>
 
+          <Col xs="3">
+            <Form>
+              <select id="acc_id" className="col-sm-10 form-control" name="acc_id" value={accountID} onChange={this.handleAccountChange}>
+                <option value="" disabled>Choose an account</option>
+                {listOfAccounts.map(acc => (
+                  <option key={acc.id} value={acc.id}>{acc.name}</option>
+                ))}
+              </select>
+            </Form>
+          </Col>
+
+
+          <Card>
+            <CardHeader>
+              <i className="fa fa-align-justify" />
+                  Transaction history<small className="text-muted">
+                  , (current balance: {vndFormat((listOfTransactions[0] && listOfTransactions[0].post_bal) || 'N/A')})</small>
+            </CardHeader>
+            <TransactionsTable listOfTransactions={listOfTransactions} />
+          </Card>
+        </Row>
+
+      </div>
+    )
   }
 }
 
-function UserRow(props) {
-  const account = props.account;
-
-  return (
-    <tr>
-      <td>{account.type}</td>
-      <td>{account.category}</td>
-      <td>{vndFormat(account.amount)}</td>
-      <td>{dateFormatForTransactions(account.created_at)}</td>
-      <td>{account.note || 'N/A'}</td>
-      <td>{vndFormat(account.post_bal)}</td>
-    </tr>
-
-  )
-}
-export default Transactions
+export default ListAccount;
