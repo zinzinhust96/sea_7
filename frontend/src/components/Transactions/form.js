@@ -131,7 +131,7 @@ class CreateAccountForm extends React.PureComponent {
         </div>
         <div className="form-group row">
           <label htmlFor="created_at" className="col-sm-2 col-form-label text-right">Date Time</label>
-          <input id="created_at" className="col-sm-10 form-control" name="created_at" type="datetime-local" value={createAt} onChange={this.handleTextFieldChange} required />
+          <input id="created_at" className="col-sm-10 form-control" name="created_at" type="datetime-local" value={createAt} onChange={this.handleTextFieldChange} step="1" required />
         </div>
         <div className="form-group row">
           <label htmlFor="note" className="col-sm-2 col-form-label text-right">Note</label>
