@@ -7,6 +7,8 @@ export const GET_TRANSACTIONS_REQUEST = 'GET_TRANSACTIONS_REQUEST';
 export const GET_TRANSACTIONS_SUCCESS = 'GET_TRANSACTIONS_SUCCESS';
 export const GET_TRANSACTIONS_ERROR = 'GET_TRANSACTIONS_ERROR';
 
+export const UPDATE_ACCOUNT_ID_TO_GET_TRANSACTIONS = 'UPDATE_ACCOUNT_ID_TO_GET_TRANSACTIONS'
+
 export function getAllTransactions(accountID) {
   function request() { return { type: GET_TRANSACTIONS_REQUEST } }
   function success(transactions) { return { type: GET_TRANSACTIONS_SUCCESS, transactions } }
@@ -32,4 +34,8 @@ export function getAllTransactions(accountID) {
       dispatch(alertActions.error(error));
     }
   };
+}
+
+export function updateAccountIDToGetTransactions(accountID) {
+  return { type: UPDATE_ACCOUNT_ID_TO_GET_TRANSACTIONS, accountID }
 }

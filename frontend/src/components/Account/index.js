@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import {
   Card, CardBody, CardHeader, Col, Row, Table,
 } from 'reactstrap';
+import { history } from '../../helpers/history';
 
 import { vndFormat, dateFormat } from '../../helpers/textFormatter'
 
-function UserRow(props) {
-  const account = props.user;
+const AccountRow = ({ account, handleAccountSelect }) => {
   if (account) {
     return (
-      <tr>
+      <tr style={{ cursor: 'pointer' }} onClick={() => handleAccountSelect(account.id)}>
         <th>{dateFormat(account.created)}</th>
         <td>{account.name}</td>
         <td>{vndFormat(account.cur_bal)}</td>
@@ -30,6 +30,11 @@ function UserRow(props) {
 class ListAccount extends Component {
   componentDidMount() {
     this.props.getAllAccounts();
+  }
+
+  onAccountSelect = (accountID) => {
+    this.props.updateAccountIDToGetTransactions(accountID)
+    history.push('/transactions/history')
   }
 
   render() {
@@ -54,7 +59,7 @@ class ListAccount extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {listOfAccounts.map((account, index) => <UserRow key={index} user={account} />)}
+                    {listOfAccounts.map((account, index) => <AccountRow key={index} account={account} handleAccountSelect={this.onAccountSelect} />)}
                   </tbody>
                 </Table>
               </CardBody>

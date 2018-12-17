@@ -14,7 +14,7 @@ export default {
       children: [
         {
           name: 'List all accounts',
-          url: '/accounts',
+          url: '/accounts/list',
         },
         {
           name: 'Create new account',
@@ -27,8 +27,8 @@ export default {
       icon: 'fa fa-exchange',
       children: [
         {
-          name: 'Transaction history',
-          url: '/transactions',
+          name: 'Transactions history',
+          url: '/transactions/history',
         },
         {
           name: 'Create transaction',

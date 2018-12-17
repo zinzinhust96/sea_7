@@ -12,14 +12,13 @@ const routes = [
     path: '/', exact: true, name: 'Homepage', component: HomePage,
   },
   {
-    path: '/accounts', exact: true, name: 'List all accounts', component: Accounts,
+    path: '/accounts/list', exact: true, name: 'List all accounts', component: Accounts,
   },
-
   {
     path: '/accounts/create', exact: true, name: 'Create new account', component: CreateAccount,
   },
   {
-    path: '/transactions', exact: true, name: 'Transaction history', component: TransactionHistory,
+    path: '/transactions/history', exact: true, name: 'Transaction history', component: TransactionHistory,
   },
   {
     path: '/transactions/create', exact: true, name: 'Create transaction', component: CreateTransaction,

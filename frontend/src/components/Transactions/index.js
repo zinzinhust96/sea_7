@@ -1,79 +1,77 @@
 import React, { Component } from 'react';
 import {
-  Card, CardHeader, Col, Row,
+  Card, CardHeader, CardBody, Col, Row, Table,
 } from 'reactstrap';
 import styled from 'styled-components';
 import TransactionsTable from './table'
 import { vndFormat } from '../../helpers/textFormatter';
 
-const Form = styled.form`
-  .form-control {
-    color: #000;
-  }
-  .form-control:disabled {
-    background-color: #e9ecef;
-    color: #5c6873;
-    cursor: not-allowed;
-  }
-`;
+const AccountRow = styled.tr`
+  cursor: pointer;
+  background-color: ${props => props.selected ? '#00000013' : ''};
+`
 
-class ListAccount extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      acc_id: '',
-    };
+class TransactionsList extends Component {
+  async componentDidMount() {
+    await this.props.getAllAccounts();
+    const { listOfAccounts, accountID } = this.props;
+    if (accountID === -1 && listOfAccounts.length > 0) {
+      this.props.updateAccountIDToGetTransactions(listOfAccounts[0].id)
+      this.props.getAllTransactions(listOfAccounts[0].id)
+    } else if (accountID !== -1) {
+      this.props.getAllTransactions(accountID)
+    }
   }
 
-
-  componentDidMount() {
-    this.props.getAllAccounts();
-  }
-
-  handleAccountChange = (e) => {
-    this.setState({
-      acc_id: parseFloat(e.target.value),
-    });
-
-    this.props.getAllTransactions(e.target.value)
+  handleAccountChange = (accountID) => {
+    this.props.updateAccountIDToGetTransactions(accountID)
+    this.props.getAllTransactions(accountID)
   }
 
   render() {
     const { listOfAccounts } = this.props;
-    const {
-      acc_id: accountID,
-    } = this.state;
-    const { listOfTransactions } = this.props;
+    const { listOfTransactions, accountID } = this.props;
     return (
       <div className="animated fadeIn container-fluid">
         <Row>
-
           <Col xs="3">
-            <Form>
-              <select id="acc_id" className="col-sm-10 form-control" name="acc_id" value={accountID} onChange={this.handleAccountChange}>
-                <option value="" disabled>Choose an account</option>
-                {listOfAccounts.map(acc => (
-                  <option key={acc.id} value={acc.id}>{acc.name}</option>
-                ))}
-              </select>
-            </Form>
+            <Card>
+              <CardBody>
+                <Table responsive hover>
+                  <thead>
+                    <tr><th>List of Accounts</th></tr>
+                  </thead>
+                  <tbody>
+                    {listOfAccounts.map(item => (
+                      <AccountRow
+                        key={item.id}
+                        selected={accountID === item.id}
+                        onClick={() => this.handleAccountChange(item.id)}
+                      >
+                        <td>{item.name}</td>
+                      </AccountRow>
+                    ))}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
           </Col>
-
-
-          <Card>
-            <CardHeader>
-              <i className="fa fa-align-justify" />
-                  Transaction history<small className="text-muted">
-                  , (current balance: {vndFormat((listOfTransactions[0] && listOfTransactions[0].post_bal) || 'N/A')})</small>
-            </CardHeader>
-            <TransactionsTable listOfTransactions={listOfTransactions} />
-          </Card>
+          <Col xs="9">
+            <Card>
+              <CardHeader>
+                <i className="fa fa-align-justify" />
+                    Transaction history<small className="text-muted">
+                    , (current balance: {vndFormat((listOfTransactions[0] && listOfTransactions[0].post_bal) || 'N/A')})</small>
+              </CardHeader>
+              <CardBody>
+                <TransactionsTable listOfTransactions={listOfTransactions} />
+              </CardBody>
+            </Card>
+          </Col>
         </Row>
-
       </div>
     )
   }
 }
 
-export default ListAccount;
+export default TransactionsList;
