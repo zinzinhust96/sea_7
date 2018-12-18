@@ -34,6 +34,7 @@ class TransactionsList extends Component {
     const {
       listOfTransactions, accountID, accountLoading, transactionsLoading,
     } = this.props;
+    const account = listOfAccounts.filter(item => item.id === accountID)[0]
     return (
       <div className="animated fadeIn container-fluid">
         <Row>
@@ -64,7 +65,7 @@ class TransactionsList extends Component {
               <CardHeader>
                 <i className="fa fa-align-justify" />
                     Transaction history<small className="text-muted">
-                    , (current balance: {vndFormat((listOfTransactions[0] && listOfTransactions[0].post_bal) || 'N/A')})</small>
+                    , (current balance: {vndFormat((account && account.cur_bal) || 'N/A')})</small>
               </CardHeader>
               <CardBody>
                 {(accountLoading || transactionsLoading) ? <Spinner /> : <TransactionsTable listOfTransactions={listOfTransactions} />}
