@@ -27,7 +27,7 @@ const getCurrentDateTime = () => `${new Date().getFullYear()}-${`${new Date().ge
 )}T${`${new Date().getHours()}`.padStart(
   2,
   0,
-)}:${`${new Date().getMinutes()}`.padStart(2, 0)}`
+)}:${`${new Date().getMinutes()}`.padStart(2, 0)}:${`${new Date().getSeconds()}`.padStart(2, 0)}`
 
 const RenderMultilevelSelect = ({ list, index }) => list.map((item) => {
   if (item.subcategories.length === 0) {
