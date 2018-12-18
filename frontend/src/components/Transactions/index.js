@@ -5,6 +5,7 @@ import {
 import styled from 'styled-components';
 import TransactionsTable from './table'
 import { vndFormat } from '../../helpers/textFormatter';
+import Spinner from '../Spinner'
 
 const AccountRow = styled.tr`
   cursor: pointer;
@@ -30,7 +31,9 @@ class TransactionsList extends Component {
 
   render() {
     const { listOfAccounts } = this.props;
-    const { listOfTransactions, accountID } = this.props;
+    const {
+      listOfTransactions, accountID, accountLoading, transactionsLoading,
+    } = this.props;
     return (
       <div className="animated fadeIn container-fluid">
         <Row>
@@ -42,7 +45,7 @@ class TransactionsList extends Component {
                     <tr><th>List of Accounts</th></tr>
                   </thead>
                   <tbody>
-                    {listOfAccounts.map(item => (
+                    {accountLoading ? <tr><td><Spinner /></td></tr> : listOfAccounts.map(item => (
                       <AccountRow
                         key={item.id}
                         selected={accountID === item.id}
@@ -64,7 +67,7 @@ class TransactionsList extends Component {
                     , (current balance: {vndFormat((listOfTransactions[0] && listOfTransactions[0].post_bal) || 'N/A')})</small>
               </CardHeader>
               <CardBody>
-                <TransactionsTable listOfTransactions={listOfTransactions} />
+                {(accountLoading || transactionsLoading) ? <Spinner /> : <TransactionsTable listOfTransactions={listOfTransactions} />}
               </CardBody>
             </Card>
           </Col>

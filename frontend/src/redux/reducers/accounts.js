@@ -6,17 +6,17 @@ import {
 
 const initialState = {
   listOfAccounts: [],
-  loading: false,
+  accountLoading: false,
 }
 
 export default function accounts(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_ACCOUNT_REQUEST:
-      return { ...state, loading: true }
+      return { ...state, accountLoading: true }
     case GET_ALL_ACCOUNT_SUCCESS:
-      return { ...state, listOfAccounts: action.accounts }
+      return { ...state, listOfAccounts: action.accounts, accountLoading: false }
     case GET_ALL_ACCOUNT_ERROR:
-      return { ...state, error: action.error }
+      return { ...state, error: action.error, accountLoading: false }
     default:
       return state
   }

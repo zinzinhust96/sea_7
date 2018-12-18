@@ -5,6 +5,7 @@ import {
 import { history } from '../../helpers/history';
 
 import { vndFormat, dateFormat } from '../../helpers/textFormatter'
+import Spinner from '../Spinner'
 
 const AccountRow = ({ account, handleAccountSelect }) => {
   if (account) {
@@ -38,7 +39,7 @@ class ListAccount extends Component {
   }
 
   render() {
-    const { listOfAccounts } = this.props;
+    const { listOfAccounts, accountLoading } = this.props;
 
     return (
       <div className="animated fadeIn container-fluid">
@@ -49,7 +50,7 @@ class ListAccount extends Component {
                 <i className="fa fa-align-justify" /> List Account
               </CardHeader>
               <CardBody>
-                <Table responsive hover>
+                {accountLoading ? <Spinner /> : (<Table responsive hover>
                   <thead>
                     <tr>
                       <th scope="col">Created</th>
@@ -59,9 +60,11 @@ class ListAccount extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {listOfAccounts.map((account, index) => <AccountRow key={index} account={account} handleAccountSelect={this.onAccountSelect} />)}
+                    {accountLoading
+                      ? <Spinner />
+                      : listOfAccounts.map((account, index) => <AccountRow key={index} account={account} handleAccountSelect={this.onAccountSelect} />)}
                   </tbody>
-                </Table>
+                </Table>)}
               </CardBody>
             </Card>
           </Col>
