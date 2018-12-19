@@ -2,23 +2,17 @@
 /* eslint-disable jsx-a11y/label-has-for */
 import React from 'react'
 import styled from 'styled-components'
-import { renderSpace } from '../../helpers/renderer'
+import { RenderMultilevelSelect } from '../../helpers/renderer'
+import CreateCategoryModal from './create-category-modal'
+import { TRANSACTION_TYPES } from '../../constants/transaction'
+import { Form } from './common'
 
-const Form = styled.form`
-  .form-control {
-    color: #000;
-  }
-  .form-control:disabled {
-    background-color: #e9ecef;
-    color: #5c6873;
-    cursor: not-allowed;
-  }
+const ModalLink = styled.a.attrs({
+  className: 'offset-sm-2 pl-2 pt-2',
+})`
+  color: ${props => props.disabled ? '#adadad' : '#20a8d8'} !important;
+  cursor: ${props => props.disabled ? 'not-allowed' : ''};
 `
-
-const TRANSACTION_TYPES = {
-  EXPENSE: 'expense',
-  INCOME: 'income',
-}
 
 const getCurrentDateTime = () => `${new Date().getFullYear()}-${`${new Date().getMonth()
     + 1}`.padStart(2, 0)}-${`${new Date().getDate()}`.padStart(
@@ -28,24 +22,6 @@ const getCurrentDateTime = () => `${new Date().getFullYear()}-${`${new Date().ge
   2,
   0,
 )}:${`${new Date().getMinutes()}`.padStart(2, 0)}:${`${new Date().getSeconds()}`.padStart(2, 0)}`
-
-const RenderMultilevelSelect = ({ list, index }) => list.map((item) => {
-  if (item.subcategories.length === 0) {
-    return (
-      <option key={item.id} value={item.id} className={index === 0 ? 'option-group' : 'option-child'}>
-        {renderSpace(index * 3)}
-        {item.name}
-      </option>
-    )
-  }
-  return (<React.Fragment key={item.id}>
-    <option value={item.id} className="option-group">
-      {renderSpace(index * 3)}
-      {item.name}
-    </option>
-    <RenderMultilevelSelect list={item.subcategories} index={index + 1} />
-  </React.Fragment>)
-})
 
 const getDefaultState = () => ({
   acc_id: '',
@@ -59,12 +35,22 @@ const getDefaultState = () => ({
 class CreateAccountForm extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = getDefaultState()
+    this.state = {
+      ...getDefaultState(),
+      modal: false,
+    }
   }
 
   componentDidMount() {
     this.setState(getDefaultState())
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (!this.state.modal && this.state.modal !== prevState.modal) {
+  //     // update category list when user finish creating new category
+  //     this.props.getCategoriesByAccount(this.state.acc_id, this.state.trans_type)
+  //   }
+  // }
 
   handleAccountChange = (e) => {
     this.setState({
@@ -96,12 +82,27 @@ class CreateAccountForm extends React.PureComponent {
 
   handleSubmitForm = (e) => {
     e.preventDefault()
-    this.props.onSubmit(this.state)
+    const {
+      amount, acc_id: accountID, cat_id: categoryID, created_at: createAt, note,
+    } = this.state
+    this.props.onSubmit({
+      amount,
+      acc_id: accountID,
+      cat_id: categoryID,
+      created_at: createAt,
+      note,
+    })
   }
 
   resetForm = () => {
     this.props.onReset()
     this.setState(getDefaultState())
+  }
+
+  toggleModal = () => {
+    this.setState(state => ({
+      modal: !state.modal,
+    }));
   }
 
   render() {
@@ -111,7 +112,8 @@ class CreateAccountForm extends React.PureComponent {
     const {
       submitting, error, success, listOfAccounts, listOfCategories, categoriesLoading,
     } = this.props
-    return (
+    const categoryDisabled = categoriesLoading || listOfCategories.length === 0
+    return (<div>
       <Form onSubmit={this.handleSubmitForm}>
         <div className="form-group row">
           <label htmlFor="amount" className="col-sm-2 col-form-label text-right">Amount</label>
@@ -133,12 +135,13 @@ class CreateAccountForm extends React.PureComponent {
             ))}
           </select>
         </div>
-        <div className="form-group row">
+        <div className="form-group row" style={{ height: '63.8px' }}>
           <label htmlFor="cat_id" className="col-sm-2 col-form-label text-right">Category</label>
-          <select id="cat_id" disabled={categoriesLoading || listOfCategories.length === 0} className="col-sm-10 form-control" name="cat_id" value={categoryID} onChange={this.handleNumberFieldChange} required>
+          <select id="cat_id" disabled={categoryDisabled} className="col-sm-10 form-control" name="cat_id" value={categoryID} onChange={this.handleNumberFieldChange} required>
             <option value="" disabled hidden>Choose an category</option>
             <RenderMultilevelSelect list={listOfCategories} index={0} />
           </select>
+          <ModalLink disabled={categoryDisabled} onClick={categoryDisabled ? () => {} : this.toggleModal}>{`Add ${transType} category`}</ModalLink>
         </div>
         <div className="form-group row">
           <label htmlFor="created_at" className="col-sm-2 col-form-label text-right">Date Time</label>
@@ -161,7 +164,18 @@ class CreateAccountForm extends React.PureComponent {
           </div>
         </div>
       </Form>
-    )
+      <CreateCategoryModal
+        modal={this.state.modal}
+        toggle={this.toggleModal}
+        categoryType={transType}
+        accountID={accountID}
+        listOfAccounts={listOfAccounts}
+        listOfCategories={listOfCategories}
+        categoriesLoading={categoriesLoading}
+        getCategoriesByAccount={this.props.getCategoriesByAccount}
+        currentAccId={accountID}
+      />
+    </div>)
   }
 }
 

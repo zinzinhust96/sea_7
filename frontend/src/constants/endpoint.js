@@ -10,6 +10,7 @@ export const CREATE_ACCOUNT_URL = `${BACKEND_API}/api/v1/accounts`
 
 // categogies
 export const GET_CATEGORIES_URL = `${BACKEND_API}/api/v1/categories`
+export const CREATE_CATEGORY_URL = `${BACKEND_API}/api/v1/categories`
 
 // transactions
 export const CREATE_TRANSACTION_URL = `${BACKEND_API}/api/v1/transactions`

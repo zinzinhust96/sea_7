@@ -97,14 +97,23 @@
     text-decoration: none;
 }
 
-a {
-    text-decoration: none;
-    color: #427ed2;
-}
-
+a,
+a:visited,
+a:focus,
+a:active,
 a:hover {
-    color: white;
-    text-decoration: underline;
+  text-decoration: none;
+  outline: none;
+  color: #428bca;
+}
+a {
+  font-weight: normal;
+  color: #20a8d8;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  cursor: pointer;
+  word-wrap: break-word;
 }
 
 .tier3{
