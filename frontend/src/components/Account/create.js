@@ -22,20 +22,20 @@ class CreateAccount extends React.PureComponent {
         method: 'POST',
         body: JSON.stringify(data),
       })
-      if (response.status) {
+      if (response.status === 'success') {
         this.setState({
           success: 'Your account has been successfully created!',
           submitting: false,
         })
       } else {
         this.setState({
-          error: 'There is an error when submitting your data',
+          error: response.message,
           submitting: false,
         })
       }
-    } catch (e) {
+    } catch (error) {
       this.setState({
-        error: 'There is an error when submitting your data',
+        error,
         submitting: false,
       })
     }

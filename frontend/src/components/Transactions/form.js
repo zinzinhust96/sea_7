@@ -21,7 +21,7 @@ const TRANSACTION_TYPES = {
 }
 
 const getCurrentDateTime = () => `${new Date().getFullYear()}-${`${new Date().getMonth()
-    + 1}`.padStart(2, 0)}-${`${new Date().getDay() + 1}`.padStart(
+    + 1}`.padStart(2, 0)}-${`${new Date().getDate()}`.padStart(
   2,
   0,
 )}T${`${new Date().getHours()}`.padStart(
@@ -47,17 +47,23 @@ const RenderMultilevelSelect = ({ list, index }) => list.map((item) => {
   </React.Fragment>)
 })
 
+const getDefaultState = () => ({
+  acc_id: '',
+  trans_type: TRANSACTION_TYPES.EXPENSE,
+  amount: '',
+  cat_id: '',
+  created_at: getCurrentDateTime(),
+  note: '',
+})
+
 class CreateAccountForm extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      acc_id: '',
-      trans_type: TRANSACTION_TYPES.EXPENSE,
-      amount: '',
-      cat_id: '',
-      created_at: getCurrentDateTime(),
-      note: '',
-    }
+    this.state = getDefaultState()
+  }
+
+  componentDidMount() {
+    this.setState(getDefaultState())
   }
 
   handleAccountChange = (e) => {
@@ -91,6 +97,11 @@ class CreateAccountForm extends React.PureComponent {
   handleSubmitForm = (e) => {
     e.preventDefault()
     this.props.onSubmit(this.state)
+  }
+
+  resetForm = () => {
+    this.props.onReset()
+    this.setState(getDefaultState())
   }
 
   render() {
@@ -146,6 +157,7 @@ class CreateAccountForm extends React.PureComponent {
         <div className="row mt-2">
           <div className="offset-sm-2 col-sm-10 px-0">
             <input className="btn btn-primary" type="submit" value={submitting ? 'Creating...' : 'Create'} disabled={submitting} style={{ margin: 0 }} />
+            <button type="button" className="btn btn-secondary" disabled={submitting} onClick={() => this.resetForm()}>Reset</button>
           </div>
         </div>
       </Form>

@@ -1,16 +1,13 @@
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response
-  }
-  const error = new Error(response.statusText)
-  error.response = response
-  throw error
-}
-function parseJSON(response) {
-  return response.json()
+function handleResponse(response) {
+  return response.text().then((text) => {
+    const data = text && JSON.parse(text);
+    if (!response.ok) {
+      const error = (data && data.message) || response.statusText;
+      return Promise.reject(error);
+    }
+    return data;
+  });
 }
 export async function fetchJSON(url, opts) {
-  return fetch(url, opts)
-    .then(checkStatus)
-    .then(parseJSON)
+  return fetch(url, opts).then(handleResponse)
 }

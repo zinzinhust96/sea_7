@@ -10,16 +10,16 @@ const dateOptions = {
   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric',
 };
 
+const dateOptionsWithSecond = {
+  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric',
+};
+
 export function dateFormat(created) {
   const date = new Date(created)
   return date.toLocaleDateString('en-US', dateOptions)
 }
 
-const dateTransactionHistory = {
-  year: 'numeric', month: 'long', day: 'numeric',
-}
-
 export function dateFormatForTransactions(created) {
   const date = new Date(created)
-  return date.toLocaleDateString('en-US', dateTransactionHistory)
+  return date.toLocaleDateString('en-US', dateOptionsWithSecond)
 }

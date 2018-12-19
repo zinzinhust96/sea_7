@@ -4,15 +4,21 @@ import { CREATE_TRANSACTION_URL } from '../../constants/endpoint'
 import Form from './form'
 import { authHeader } from '../../helpers/auth-header';
 
+const defaultState = {
+  submitting: false,
+  error: '',
+  success: '',
+}
+
 class CreateTransaction extends React.PureComponent {
-  state = {
-    submitting: false,
-    error: '',
-    success: '',
-  }
+  state = defaultState
 
   componentDidMount() {
     this.props.getAllAccounts();
+  }
+
+  onReset = () => {
+    this.setState(defaultState)
   }
 
   onSubmit = async (data) => {
@@ -26,20 +32,20 @@ class CreateTransaction extends React.PureComponent {
         method: 'POST',
         body: JSON.stringify(data),
       })
-      if (response.status) {
+      if (response.status === 'success') {
         this.setState({
           success: 'Your transaction has been successfully created!',
           submitting: false,
         })
       } else {
         this.setState({
-          error: 'There is an error when submitting your data',
+          error: response.message,
           submitting: false,
         })
       }
-    } catch (e) {
+    } catch (error) {
       this.setState({
-        error: 'There is an error when submitting your data',
+        error,
         submitting: false,
       })
     }
@@ -55,6 +61,7 @@ class CreateTransaction extends React.PureComponent {
             success={success}
             error={error}
             submitting={submitting}
+            onReset={this.onReset}
             {...this.props}
           />
         </div>

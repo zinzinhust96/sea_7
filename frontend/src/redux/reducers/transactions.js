@@ -14,11 +14,11 @@ const initialState = {
 export default function transactions(state = initialState, action) {
   switch (action.type) {
     case GET_TRANSACTIONS_REQUEST:
-      return { ...state, transactionsLoading: true, error: null }
+      return { ...state, transactionsLoading: true, transactionsError: null }
     case GET_TRANSACTIONS_SUCCESS:
       return { ...state, listOfTransactions: action.transactions, transactionsLoading: false }
     case GET_TRANSACTIONS_ERROR:
-      return { ...state, error: action.error, transactionsLoading: false }
+      return { ...state, transactionsError: action.error, transactionsLoading: false }
     case UPDATE_ACCOUNT_ID_TO_GET_TRANSACTIONS:
       return { ...state, accountID: action.accountID }
     default:

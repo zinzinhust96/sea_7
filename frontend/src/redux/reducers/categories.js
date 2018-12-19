@@ -9,14 +9,14 @@ const initialState = {
   categoriesLoading: false,
 }
 
-export default function accounts(state = initialState, action) {
+export default function categories(state = initialState, action) {
   switch (action.type) {
     case GET_CATEGORIES_REQUEST:
-      return { ...state, categoriesLoading: true, error: null }
+      return { ...state, categoriesLoading: true, categoriesError: null }
     case GET_CATEGORIES_SUCCESS:
       return { ...state, listOfCategories: action.categories, categoriesLoading: false }
     case GET_CATEGORIES_ERROR:
-      return { ...state, error: action.error, categoriesLoading: false }
+      return { ...state, categoriesError: action.error, categoriesLoading: false }
     default:
       return state
   }
