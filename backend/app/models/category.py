@@ -12,11 +12,10 @@ class Category(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     name = db.Column(db.String(255), nullable=False)
     type = db.Column(db.String(32), server_default='Other', nullable=False)
-    children = db.relationship('Category', backref=db.backref('parent', remote_side=[account_id, id]))
+    children = db.relationship('Category', backref=db.backref('parent', remote_side=[id]), lazy='dynamic')
 
     __table_args__ = (
-        db.UniqueConstraint('name', 'type', name='unique_name_type'),
-        db.UniqueConstraint('account_id', 'name', name='unique_name_account'),
+        db.UniqueConstraint('account_id', 'name', 'type', name='unique_name_type_account'),
     )
 
     def __init__(self, name, typ, account_id=None):
@@ -49,7 +48,7 @@ class Category(db.Model):
         """
         return Category.query.filter_by(account_id=None, parent_id=None, type=typ).all() if typ else Category.query.filter_by(account_id=None, parent_id=None).all()
 
-    def json(self):
+    def json(self, acc_id):
         """
         JSON representation.
         :return:
@@ -58,5 +57,5 @@ class Category(db.Model):
             'id': self.id,
             'name': self.name,
             'type': self.type,
-            'subcategories': [item.json() for item in self.children]
+            'subcategories': [item.json(acc_id) for item in self.children.filter((Category.account_id == acc_id) | (Category.account_id == None))]
         }

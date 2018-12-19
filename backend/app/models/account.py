@@ -71,7 +71,7 @@ class Account(db.Model):
         Get an account's categories
         :return: Categories
         """
-        return list(filter(lambda cat: cat.type == typ, self.categories)) if typ else self.categories
+        return list(filter(lambda cat: cat.type == typ and cat.parent_id is None, self.categories)) if typ else self.categories
 
     def get_current_balance(self):
         return self.current_balance
