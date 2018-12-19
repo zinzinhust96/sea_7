@@ -131,3 +131,22 @@ class Categories(MethodView):
         account_categories = account.get_categories(category_type)
         all_categories = [*default_categories, *account_categories]
         return response_get_categories(all_categories, 200)
+
+    def post(self):
+        ctx = _request_ctx_stack.top
+        current_user = ctx.user
+        request_body = request.get_json()
+        acc_id, parent_id, name, type = get_dict_value_by_key(request_body, 'acc_id', 'parent_id', 'name', 'type')
+        account = Account.get_by_id(acc_id, current_user.id)
+        if account is None:
+            return response('failed', 'This account belongs to another user', 401)
+        new_category = Category.create(name, type.lower(), acc_id)
+        if parent_id:
+            parent_category = Category.get_by_id(parent_id)
+            parent_category.children.append(new_category)
+        try:
+            new_category.save()
+        except IntegrityError:
+            return response('failed', 'Duplicate category name', 400)
+        else:
+            return response('success', 'Successfully created new category', 200)

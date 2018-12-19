@@ -10,6 +10,7 @@ categories_view = Categories.as_view('categories')
 # Add rules for the api Endpoints
 # category.add_url_rule('/categories', view_func=categories_view, methods=['POST'])
 category.add_url_rule('/categories/<int:acc_id>', view_func=categories_view, methods=['GET'])
+category.add_url_rule('/categories', view_func=categories_view, methods=['POST'])
 
 
 @category.errorhandler(404)

@@ -12,10 +12,11 @@ class Category(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     name = db.Column(db.String(255), nullable=False)
     type = db.Column(db.String(32), server_default='Other', nullable=False)
-    children = db.relationship('Category', backref=db.backref('parent', remote_side=[id]))
+    children = db.relationship('Category', backref=db.backref('parent', remote_side=[account_id, id]))
 
     __table_args__ = (
         db.UniqueConstraint('name', 'type', name='unique_name_type'),
+        db.UniqueConstraint('account_id', 'name', name='unique_name_account'),
     )
 
     def __init__(self, name, typ, account_id=None):
