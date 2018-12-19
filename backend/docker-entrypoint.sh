@@ -12,6 +12,4 @@ while true; do
 done
 echo Successfully migrated database
 
-python seed.py
-
 exec "$@"
