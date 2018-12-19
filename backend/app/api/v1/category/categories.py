@@ -130,9 +130,61 @@ class Categories(MethodView):
         default_categories = Category.get_default_categories(category_type)
         account_categories = account.get_categories(category_type)
         all_categories = [*default_categories, *account_categories]
-        return response_get_categories(all_categories, 200)
+        return response_get_categories(all_categories, acc_id, 200)
 
     def post(self):
+        """
+        @api {POST} /api/v1/categories Create category for an account
+        @apiVersion 0.0.1
+        @apiName CreateCategory
+        @apiGroup Categories
+        @apiDescription Create a category for an account
+
+        @apiHeader {String} Authorization Users auth token
+        @apiHeader {String} Content-Type="application/json" Content-Type (should be application/json for every post requests)
+
+        @apiHeaderExample {json} Header-Example:
+        {
+            "Authorization": "Bearer auth_token_here"
+        }
+
+        @apiParam {Number} acc_id Account ID
+        @apiParam {String} name Category name
+        @apiParam {String} type Category type
+        @apiParam {Number=null} parent_id Parent category ID (omit if no parent)
+
+        @apiParamExample {json} Request-Example:
+        {
+            "acc_id": 1,
+            "name": "Cat",
+            "type": "expense"
+        }
+
+        @apiParamExample {json} Request-Example with parent_id:
+        {
+            "acc_id": 1,
+            "parent_id": 1,
+            "name": "Dog meat",
+            "type": "expense"
+        }
+
+        @apiSuccess (Success) {String} status Status
+        @apiSuccess (Success) {String} message Message
+
+        @apiSampleRequest /api/v1/transactions
+
+        @apiExample cURL example
+        $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer auth_token_here" -X POST
+            -d '{"acc_id": 1, "name": "Cat", "type": "expense"}'
+            http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/categories
+
+        @apiSuccessExample {json} Success-Response:
+            HTTP/1.0 200 OK
+            {
+                "message": "Successfully created new category",
+                "status": "success"
+            }
+        """
         ctx = _request_ctx_stack.top
         current_user = ctx.user
         request_body = request.get_json()
