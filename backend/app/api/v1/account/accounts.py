@@ -33,16 +33,11 @@ class Accounts(MethodView):
         @apiSuccess (Success) {Number} accounts.ini_bal Initial balance
         @apiSuccess (Success) {Number} accounts.limit Credit account limit (not available for cash account type)
         @apiSuccess (Success) {String} accounts.name Account name
-        @apiSuccess (Success) {String} accounts.sav_dur Saving account duration
-        @apiSuccess (Success) {String} accounts.sav_itr Saving account interest rate
-        @apiSuccess (Success) {String} accounts.status Status
         @apiSuccess (Success) {String} accounts.type Account type
         @apiSuccess (Success) {String} next Next page
         @apiSuccess (Success) {String} previous Previous page
         @apiSuccess (Success) {String} status Status
         @apiSuccess (Success) {String} total Total number of accounts
-
-        @apiSampleRequest /api/v1/accounts
 
         @apiExample cURL example
         $ curl -H "Authorization": "Bearer auth_token_here" http://ec2-35-153-68-36.compute-1.amazonaws.com/api/v1/accounts
@@ -58,8 +53,6 @@ class Accounts(MethodView):
                         "ini_bal": 100000,
                         "limit": 10000,
                         "name": "tepacc1",
-                        "sav_dur": null,
-                        "sav_itr": null,
                         "type": "credit"
                     },
                     {
@@ -69,8 +62,6 @@ class Accounts(MethodView):
                         "ini_bal": 100000,
                         "limit": null,
                         "name": "tepacc4",
-                        "sav_dur": null,
-                        "sav_itr": null,
                         "type": "cash"
                     }
                 ],
@@ -113,12 +104,8 @@ class Accounts(MethodView):
         @apiSuccess (Success) {Number} ini_bal Initial balance
         @apiSuccess (Success) {Number} limit Credit account limit (not available for cash account type)
         @apiSuccess (Success) {String} name Account name
-        @apiSuccess (Success) {String} sav_dur Saving account duration
-        @apiSuccess (Success) {String} sav_itr Saving account interest rate
         @apiSuccess (Success) {String} status Status
         @apiSuccess (Success) {String} type Account type
-
-        @apiSampleRequest /api/v1/accounts
 
         @apiExample cURL example
         $ curl -H "Content-Type: application/json" -H "Authorization": "Bearer auth_token_here" -X POST
@@ -133,8 +120,6 @@ class Accounts(MethodView):
                 "ini_bal": 100000,
                 "limit": 10000,
                 "name": "tep_acc1",
-                "sav_dur": null,
-                "sav_itr": null,
                 "status": "success",
                 "type": "credit"
             }

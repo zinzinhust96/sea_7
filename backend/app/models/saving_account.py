@@ -17,15 +17,22 @@ class SavingAccount(db.Model):
     current_balance = db.Column(db.BigInteger, nullable=False)
     duration = db.Column(db.Interval, nullable=False)
     interest_rate = db.Column(db.Float, nullable=False)
+    source_account = db.relationship('Account')
 
-    def __init__(self, account_id, name, initial_balance, duration, interest_rate):
+    def __init__(self, account_id, user_id, name, initial_balance, duration, interest_rate):
         self.name = name
         self.account_id = account_id
+        self.user_id = user_id
         self.created_at = datetime.utcnow()
         self.initial_balance = initial_balance
         self.current_balance = initial_balance
         self.duration = timedelta(duration * 30)
         self.interest_rate = interest_rate
+
+    @staticmethod
+    def create(account_id, user_id, name, initial_balance, duration, interest_rate):
+        new_saving_account = SavingAccount(account_id, user_id, name, initial_balance, duration, interest_rate)
+        return new_saving_account
 
     def save(self):
         """
@@ -57,10 +64,11 @@ class SavingAccount(db.Model):
         """
         return {
             'id': self.id,
+            'src_acc': self.source_account.json(),
             'name': self.name,
             'created': self.created_at.isoformat(),
             'ini_bal': self.initial_balance,
             'cur_bal': self.current_balance,
-            'duration': self.duration,
-            'interest_rate': self.interest_rate
+            'duration': self.duration.days,
+            'rate': self.interest_rate
         }

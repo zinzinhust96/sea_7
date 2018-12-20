@@ -14,7 +14,7 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     accounts = db.relationship('Account', backref='account', lazy='dynamic')
-    saving_accounts = db.relationship('SavingAccount', backref='saving_account', lazy='dynamic')
+    saving_accounts = db.relationship('SavingAccount', backref='user', lazy='dynamic')
 
     def __init__(self, email, password):
         self.email = email
@@ -113,3 +113,12 @@ class User(db.Model):
         """
         paginated_accounts_list = self.accounts.paginate(page=page, per_page=app.config['ITEMS_PER_PAGE'], error_out=False)
         return paginated_accounts_list
+
+    def get_paginated_saving_accounts(self, page):
+        """
+        Get a user's accounts and also paginate the results.
+        :param page: Page number
+        :return: Accounts of the user.
+        """
+        paginated_saving_accounts_list = self.saving_accounts.paginate(page=page, per_page=app.config['ITEMS_PER_PAGE'], error_out=False)
+        return paginated_saving_accounts_list

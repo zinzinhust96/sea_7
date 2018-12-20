@@ -15,21 +15,26 @@ def response_created_account(new_account, status_code):
     return make_response(jsonify({**status, **new_acc_info})), status_code
 
 
-def response_paginate_accounts(user, page):
+def response_paginate_accounts(user, page, saving=False):
     """
     Get an user's account and also paginate the results.
     Generate previous and next pagination urls
     :param user: Current User
     :param page: Page number
+    :param saving: Get saving accounts ?
     :return: Pagination next url, previous url and the user buckets.
     """
     pagination = user.get_paginated_accounts(page)
+    url = 'account.accounts'
+    if saving:
+        pagination = user.get_paginated_saving_accounts(page)
+        url = 'account.saving_accounts'
     previous_page = None
     if pagination.has_prev:
-        previous_page = url_for('account.accounts', page=page-1, _external=True)
+        previous_page = url_for(url, page=page-1, _external=True)
     next_page = None
     if pagination.has_next:
-        next_page = url_for('account.accounts', page=page+1, _external=True)
+        next_page = url_for(url, page=page+1, _external=True)
     items = pagination.items
     return make_response(jsonify({
         'status': 'success',
