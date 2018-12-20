@@ -14,6 +14,7 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     accounts = db.relationship('Account', backref='account', lazy='dynamic')
+    saving_accounts = db.relationship('SavingAccount', backref='saving_account', lazy='dynamic')
 
     def __init__(self, email, password):
         self.email = email

@@ -16,8 +16,6 @@ class Account(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     initial_balance = db.Column(db.BigInteger, nullable=False)
     current_balance = db.Column(db.BigInteger, nullable=False)
-    saving_duration = db.Column(db.Interval)
-    saving_interest_rate = db.Column(db.Float)
     transactions = db.relationship('Transaction', order_by="desc(Transaction.created_at)", backref='transaction', lazy='dynamic')
     categories = db.relationship('Category', backref='category', lazy='dynamic')
 
@@ -26,15 +24,13 @@ class Account(db.Model):
         'polymorphic_on': account_type
     }
 
-    def __init__(self, name, account_type, user_id, initial_balance, saving_duration=None, saving_interest_rate=None):
+    def __init__(self, name, account_type, user_id, initial_balance):
         self.name = name
         self.account_type = account_type
         self.user_id = user_id
         self.created_at = datetime.utcnow()
         self.initial_balance = initial_balance
         self.current_balance = initial_balance
-        self.saving_duration = timedelta(saving_duration * 30) if saving_duration else None
-        self.saving_interest_rate = saving_interest_rate
 
     def save(self):
         """
@@ -96,8 +92,6 @@ class Account(db.Model):
             'created': self.created_at.isoformat(),
             'ini_bal': self.initial_balance,
             'cur_bal': self.current_balance,
-            'sav_dur': self.saving_duration,
-            'sav_itr': self.saving_interest_rate,
             'limit': None
         }
 
@@ -138,8 +132,6 @@ class CreditAccount(Account):
             'created': self.created_at.isoformat(),
             'ini_bal': self.initial_balance,
             'cur_bal': self.current_balance,
-            'sav_dur': self.saving_duration,
-            'sav_itr': self.saving_interest_rate,
             'limit': self.limit
         }
 
