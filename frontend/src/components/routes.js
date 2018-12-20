@@ -5,6 +5,8 @@ const Accounts = React.lazy(() => import('../containers/ListAccount'));
 const CreateAccount = React.lazy(() => import('../containers/CreateAccount'));
 const CreateTransaction = React.lazy(() => import('../containers/CreateTransaction'));
 const TransactionHistory = React.lazy(() => import('../containers/TransactionHistory'));
+const CreateSavingAccount = React.lazy(() => import('../containers/CreateSavingAccount'));
+const SavingAccount = React.lazy(() => import('../containers/ListSavingAccount'));
 
 
 const routes = [
@@ -22,6 +24,12 @@ const routes = [
   },
   {
     path: '/transactions/create', exact: true, name: 'Create transaction', component: CreateTransaction,
+  },
+  {
+    path: '/saving_account/create', exact: true, name: 'Saving account', component: CreateSavingAccount,
+  },
+  {
+    path: '/saving_account/list', exact: true, name: 'Saving account', component: SavingAccount,
   },
 ];
 

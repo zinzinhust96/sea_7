@@ -4,6 +4,7 @@ import authentication from './authentication';
 import accounts from './accounts'
 import categories from './categories'
 import transactions from './transactions'
+import savingAccount from './savingAccount'
 
 export default combineReducers({
   alert,
@@ -11,4 +12,5 @@ export default combineReducers({
   accounts,
   categories,
   transactions,
+  savingAccount,
 });

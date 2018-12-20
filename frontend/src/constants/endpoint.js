@@ -13,3 +13,6 @@ export const GET_CATEGORIES_URL = `${BACKEND_API}/api/v1/categories`
 
 // transactions
 export const CREATE_TRANSACTION_URL = `${BACKEND_API}/api/v1/transactions`
+
+// Saving account
+export const SAVING_ACCOUNT_URL = `${BACKEND_API}/api/v1/accounts/saving`
