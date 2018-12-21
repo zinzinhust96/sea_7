@@ -21,7 +21,7 @@ const ClearParentCategoryIcon = styled.i.attrs({
   color: red;
   position: absolute;
   right: 7px;
-  bottom: 90px;
+  margin-top: 10px;
   cursor: pointer;
 `
 
