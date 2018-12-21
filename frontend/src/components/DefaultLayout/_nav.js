@@ -36,5 +36,19 @@ export default {
         },
       ],
     },
+    {
+      name: 'Saving account',
+      icon: 'fa fa-save',
+      children: [
+        {
+          name: 'List saving account',
+          url: '/saving_accounts/list',
+        },
+        {
+          name: 'Create saving account',
+          url: '/saving_accounts/create',
+        },
+      ],
+    },
   ],
 };
