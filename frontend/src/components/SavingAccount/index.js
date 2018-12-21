@@ -5,14 +5,15 @@ import {
 import Spinner from '../Spinner';
 import { dateFormat, vndFormat } from '../../helpers/textFormatter';
 
-const AccountRow = ({ account, handleAccountSelect }) => (
-  <tr style={{ cursor: 'pointer' }} onClick={() => handleAccountSelect(account.id)}>
-    <td>{account.name}</td>
+const AccountRow = ({ account }) => (
+  <tr>
+    <th>{account.name}</th>
     <th>{dateFormat(account.created)}</th>
-    <th>{vndFormat(account.ini_bal || 'N/A')}</th>
+    <td>{vndFormat(account.ini_bal || 'N/A')}</td>
+    <td>{account.duration ? `${account.duration} ${account.duration === 1 ? 'month' : 'months'}` : 'N/A'}</td>
+    <td>{account.rate ? `${account.rate}%` : 'N/A'}</td>
+    <td>{vndFormat((account.ini_bal && account.cur_bal) ? account.cur_bal - account.ini_bal : 'N/A')}</td>
     <td>{vndFormat(account.cur_bal || 'N/A')}</td>
-    <td>{vndFormat(account.duration || 'N/A')}</td>
-    <td>{vndFormat(account.rate || 'N/A')}</td>
   </tr>
 )
 class SavingAccount extends Component {
@@ -22,7 +23,6 @@ class SavingAccount extends Component {
 
   render() {
     const { listOfSavingAccounts, accountLoading } = this.props;
-
     return (
       <div className="animated fadeIn container-fluid">
         <Row>
@@ -35,18 +35,19 @@ class SavingAccount extends Component {
                 {accountLoading ? <Spinner /> : (<Table responsive hover>
                   <thead>
                     <tr>
-                      <th scope="col">Account Name</th>
+                      <th scope="col">Saving Account Name</th>
                       <th scope="col">Created</th>
-                      <th scope="col">Initiate Balance</th>
-                      <th scope="col">Current Balance</th>
+                      <th scope="col">Initial Balance</th>
                       <th scope="col">Duration</th>
-                      <th scope="col">Rate</th>
+                      <th scope="col">Monthly interest</th>
+                      <th scope="col">Interest Amount</th>
+                      <th scope="col">Final Balance</th>
                     </tr>
                   </thead>
                   <tbody>
                     {accountLoading
                       ? <Spinner />
-                      : listOfSavingAccounts.map((account, index) => <AccountRow key={index} account={account} handleAccountSelect={this.onAccountSelect} />)}
+                      : listOfSavingAccounts.map((account, index) => <AccountRow key={index} account={account} />)}
                   </tbody>
                 </Table>)}
               </CardBody>

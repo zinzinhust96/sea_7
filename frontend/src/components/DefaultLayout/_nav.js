@@ -41,12 +41,12 @@ export default {
       icon: 'fa fa-save',
       children: [
         {
-          name: 'Create saving account',
-          url: '/saving_account/create',
+          name: 'List saving account',
+          url: '/saving_accounts/list',
         },
         {
-          name: 'List saving account',
-          url: '/saving_account/list',
+          name: 'Create saving account',
+          url: '/saving_accounts/create',
         },
       ],
     },

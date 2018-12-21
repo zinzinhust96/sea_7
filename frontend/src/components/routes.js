@@ -26,10 +26,10 @@ const routes = [
     path: '/transactions/create', exact: true, name: 'Create transaction', component: CreateTransaction,
   },
   {
-    path: '/saving_account/create', exact: true, name: 'Saving account', component: CreateSavingAccount,
+    path: '/saving_accounts/create', exact: true, name: 'Saving account', component: CreateSavingAccount,
   },
   {
-    path: '/saving_account/list', exact: true, name: 'Saving account', component: SavingAccount,
+    path: '/saving_accounts/list', exact: true, name: 'Saving account', component: SavingAccount,
   },
 ];
 
