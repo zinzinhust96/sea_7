@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import './Default.scss';
 import {
   AppBreadcrumb,
@@ -64,7 +64,6 @@ class DefaultLayout extends Component {
                         )}
                       />
                     ) : (null))}
-                    <Redirect from="/" to="/homepage" />
                   </Switch>
                 </Suspense>
               </div>

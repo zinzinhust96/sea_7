@@ -23,7 +23,7 @@ class HomePage extends React.Component {
                       </div>
                       <div className="section-description font-sinkin_sans200_x_light"><p>Client
                                                 success is our top goal.</p>
-                        <p>Let First Financial guide you on finding solutions to help you get
+                        <p>Let My Finance guide you on finding solutions to help you get
                                                     where you want and remain financially successful.</p>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
@@ -48,13 +48,6 @@ class HomePage extends React.Component {
                         <img src={PurchasesVacation} alt="icon" />
                         <p>VACATION</p>
                       </div>
-                    </div>
-                  </div>
-                  <div className="button section">
-                    <div className="btn-centered margin-top-50 ">
-                      <button type="button" className="btn btn-solid">
-                        BE SMART<br /> WITH YOUR MONEY
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -83,16 +76,9 @@ class HomePage extends React.Component {
                                              No matter what success looks like for you, we help you achieve it.<br />
                       <br />
                     </span></p>
-                      <p><span className="font-color-white">Learn how First Financial can help you and your family remain successful in the long term.</span>
+                      <p><span className="font-color-white">Learn how My Finance can help you and your family remain successful in the long term.</span>
                       </p>
                     </div>
-                  </div>
-                </div>
-                <div className="button section">
-                  <div className="btn-centered  ">
-                    <button type="button" className="btn btn-solid">
-                      <span>PLAN FOR YOUR FUTURE</span>
-                    </button>
                   </div>
                 </div>
               </div>
