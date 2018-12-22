@@ -136,5 +136,6 @@ pip-selfcheck.json
 .DS_Store
 .flaskenv
 .idea/
+celerybeat-schedule.db
 
 # End of https://www.gitignore.io/api/python

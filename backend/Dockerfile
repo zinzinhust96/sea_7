@@ -32,7 +32,7 @@ RUN mkdir -p /opt/app && cd /opt/app
 
 # Install Requirements
 COPY --from=builder /wheels /wheels
-RUN apk add --no-cache supervisor mariadb-client-libs && \
+RUN apk add --no-cache mariadb-client-libs && \
     pip install --no-cache /wheels/* && \
     rm -rf /wheels
 
@@ -42,11 +42,9 @@ COPY . .
 # Run uwsgi unpriviledged
 RUN addgroup -S uwsgi && adduser -S -G uwsgi uwsgi && chown -R uwsgi:uwsgi /opt/app
 
+# Run celery unpriviledged
+RUN addgroup -S celery && adduser -S -G celery celery && chown -R celery:celery /opt/app
+
 COPY uwsgi.ini /etc/uwsgi/
-COPY supervisord.conf /etc/supervisor/conf.d
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh && ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["/usr/bin/supervisord"]
 
 EXPOSE 5000

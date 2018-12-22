@@ -19,8 +19,27 @@ services:
     volumes:
       - db-data:/var/lib/mysql
 
+  adminer:
+    image: adminer:4.7.0-standalone
+    networks:
+      - backend
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+    environment:
+      - ADMINER_DESIGN=rmsoft
+
+  rabbitmq:
+    image: rabbitmq:3.6-management-alpine
+    networks:
+      - backend
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=5HMgK6nNtkKgHQSM
+
   app:
-    image: 748977760035.dkr.ecr.us-east-1.amazonaws.com/my-finance-backend:0.3.0
+    image: 748977760035.dkr.ecr.us-east-1.amazonaws.com/my-finance-backend:1.0.0
     networks:
       - backend
     depends_on:
@@ -32,6 +51,60 @@ services:
       - DB_NAME=my_finance
       - SECRET_KEY=2a94d1e631eb93ffc51041356cced91d4b01c827c66b4a15
       - AUTH_TOKEN_EXPIRY_DAYS=30
+    command:
+      - /usr/local/bin/uwsgi
+      - --ini
+      - /etc/uwsgi/uwsgi.ini
+
+  worker:
+    image: 748977760035.dkr.ecr.us-east-1.amazonaws.com/my-finance-backend:1.0.0
+    networks:
+      - backend
+    depends_on:
+      - mysql
+      - rabbitmq
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=user
+      - DB_PASS=KWHSZhpFwmMfNp3T
+      - DB_NAME=my_finance
+      - RABBITMQ_URI=amqp://guest:5HMgK6nNtkKgHQSM@rabbitmq
+      - EMAIL_ADDRESS=culua6969@gmail.com
+      - EMAIL_PASSWORD=thitchokho
+    command:
+      - /usr/local/bin/celery
+      - -A
+      - app.celery
+      - worker
+      - --loglevel=INFO
+      - --uid=celery
+
+  scheduler:
+    image: 748977760035.dkr.ecr.us-east-1.amazonaws.com/my-finance-backend:1.0.0
+    networks:
+      - backend
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URI=amqp://guest:5HMgK6nNtkKgHQSM@rabbitmq
+    command:
+      - /usr/local/bin/celery
+      - -A
+      - app.celery
+      - beat
+      - --loglevel=INFO
+
+  flower:
+    image: mher/flower
+    networks:
+      - backend
+    ports:
+      - 5555:5555
+    depends_on:
+      - rabbitmq
+    environment:
+      - CELERY_BROKER_URL=amqp://guest:5HMgK6nNtkKgHQSM@rabbitmq
+      - FLOWER_PORT=5555
 
   nginx:
     build:

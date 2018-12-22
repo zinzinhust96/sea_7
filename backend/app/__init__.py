@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
+from flask_mail import Mail
+from celery import Celery
 from click import option
 import os
 import subprocess
@@ -16,7 +18,7 @@ CORS(app)
 # app configuration
 app_settings = os.getenv(
     'APP_SETTINGS',
-    'app.config.Config'
+    'config.Config'
 )
 app.config.from_object(app_settings)
 
@@ -28,6 +30,42 @@ db = SQLAlchemy(app)
 
 # Initialize Flask Migrate
 migrate = Migrate(app, db)
+
+mail_settings = {
+    'MAIL_SERVER': 'smtp.gmail.com',
+    'MAIL_PORT': 465,
+    'MAIL_USE_TLS': False,
+    'MAIL_USE_SSL': True,
+    'MAIL_USERNAME': app.config['EMAIL_ADDRESS'],
+    'MAIL_PASSWORD': app.config['EMAIL_PASSWORD']
+}
+
+app.config.update(mail_settings)
+
+# Initialize Flask-Mail
+mail = Mail(app)
+
+
+def make_celery(app):
+    celery = Celery(
+        app.import_name,
+        backend='rpc://',
+        include=['tasks'],
+        broker=app.config['CELERY_BROKER_URL']
+    )
+    celery.conf.update(app.config)
+
+    class ContextTask(celery.Task):
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery
+
+
+# Initialize Celery
+celery = make_celery(app)
 
 
 @app.cli.command()

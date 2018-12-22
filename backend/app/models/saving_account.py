@@ -1,5 +1,6 @@
 from app import db
 from datetime import datetime, timedelta
+from sqlalchemy.sql import expression
 
 
 class SavingAccount(db.Model):
@@ -17,6 +18,7 @@ class SavingAccount(db.Model):
     current_balance = db.Column(db.BigInteger, nullable=False)
     duration = db.Column(db.Interval, nullable=False)
     interest_rate = db.Column(db.Float, nullable=False)
+    completed = db.Column(db.Boolean, server_default=expression.false(), nullable=False)
     source_account = db.relationship('Account')
 
     def __init__(self, account_id, user_id, name, initial_balance, duration, interest_rate):
@@ -54,8 +56,13 @@ class SavingAccount(db.Model):
     def get_current_balance(self):
         return self.current_balance
 
-    def update_balance(self, trans_type, amount):
-        pass
+    def update_balance(self):
+        self.current_balance += self.current_balance * self.interest_rate
+        db.session.commit()
+
+    def finish_saving_duration(self):
+        self.completed = True
+        db.session.commit()
 
     def json(self):
         """
@@ -69,6 +76,6 @@ class SavingAccount(db.Model):
             'created': self.created_at.isoformat(),
             'ini_bal': self.initial_balance,
             'cur_bal': self.current_balance,
-            'duration': self.duration.days,
+            'duration': self.duration.days / 30,
             'rate': self.interest_rate
         }

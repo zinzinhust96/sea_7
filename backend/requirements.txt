@@ -8,3 +8,5 @@ python-dotenv==0.9.1
 Flask-Bcrypt==0.7.1
 PyJWT==1.6.4
 nose2==0.8.0
+celery==4.2.1
+Flask-Mail==0.9.1
