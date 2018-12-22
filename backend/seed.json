@@ -1,0 +1,140 @@
+{
+  "categories": {
+    "expense": [
+      {
+        "name": "Food & Beverage",
+        "children": [
+          { "name": "Restaurants" },
+          { "name": "Café" }
+        ]
+      },
+      {
+        "name": "Bill & Utilities",
+        "children": [
+          { "name": "Phone" },
+          { "name": "Water" },
+          { "name": "Electricity" },
+          { "name": "Gas" },
+          { "name": "Television" },
+          { "name": "Internet" },
+          { "name": "Rental" }
+        ]
+      },
+      {
+        "name": "Transportation",
+        "children": [
+          { "name": "Taxi" },
+          { "name": "Parking Fees" },
+          { "name": "Petrol" },
+          { "name": "Maintenance" }
+        ]
+      },
+      {
+        "name": "Shopping",
+        "children": [
+          { "name": "Clothing" },
+          { "name": "Footwear" },
+          { "name": "Accessories" },
+          { "name": "Electronics" }
+        ]
+      },
+      {
+        "name": "Friends & Lover",
+        "children": []
+      },
+      {
+        "name": "Entertainment",
+        "children": [
+          { "name": "Movies" },
+          { "name": "Games" }
+        ]
+      },
+      {
+        "name": "Travel",
+        "children": []
+      },
+      {
+        "name": "Health & Fitness",
+        "children": [
+          { "name": "Sports" },
+          { "name": "Doctor" },
+          { "name": "Pharmacy" },
+          { "name": "Personal Care" }
+        ]
+      },
+      {
+        "name": "Gifts & Donations",
+        "children": [
+          { "name": "Marriage" },
+          { "name": "Funeral" },
+          { "name": "Charity" }
+        ]
+      },
+      {
+        "name": "Family",
+        "children": [
+          { "name": "Children & Babies" },
+          { "name": "Home Improvement" },
+          { "name": "Home Services" },
+          { "name": "Pets" }
+        ]
+      },
+      {
+        "name": "Education",
+        "children": [
+          { "name": "Books" }
+        ]
+      },
+      {
+        "name": "Investment",
+        "children": []
+      },
+      {
+        "name": "Business",
+        "children": []
+      },
+      {
+        "name": "Insurances",
+        "children": []
+      },
+      {
+        "name": "Fees & Charges",
+        "children": []
+      },
+      {
+        "name": "Withdrawal",
+        "children": []
+      },
+      {
+        "name": "Others",
+        "children": []
+      }
+    ],
+  "income": [
+      {
+        "name": "Award",
+        "children": []
+      },
+      {
+        "name": "Interest Money",
+        "children": []
+      },
+      {
+        "name": "Salary",
+        "children": []
+      },
+      {
+        "name": "Gifts",
+        "children": []
+      },
+      {
+        "name": "Selling",
+        "children": []
+      },
+      {
+        "name": "Others",
+        "children": []
+      }
+    ]
+  }
+}
