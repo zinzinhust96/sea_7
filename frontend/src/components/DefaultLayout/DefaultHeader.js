@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink,
 } from 'reactstrap';
@@ -21,14 +22,16 @@ class DefaultHeader extends Component {
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <AppNavbarBrand
-          full={{
-            src: logo, width: 110, height: 25, alt: 'MyFinance Logo',
-          }}
-          minimized={{
-            src: sygnet, width: 30, height: 30, alt: 'MyFinance Logo',
-          }}
-        />
+        <Link to="/">
+          <AppNavbarBrand
+            full={{
+              src: logo, width: 110, height: 25, alt: 'MyFinance Logo',
+            }}
+            minimized={{
+              src: sygnet, width: 30, height: 30, alt: 'MyFinance Logo',
+            }}
+          />
+        </Link>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
         <Nav className="ml-auto" navbar>
           <NavItem className="d-md-down-none">
