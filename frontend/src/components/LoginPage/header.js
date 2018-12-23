@@ -7,7 +7,7 @@ const LinkItem = styled(Link).attrs({
   className: 'nav-link',
 })`
   cursor: pointer;
-  color: #333;
+  color: #333 !important;
   font-weight: ${props => props.selected ? 'bold' : 'normal'};
 `
 

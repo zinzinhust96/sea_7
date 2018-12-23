@@ -15,7 +15,7 @@ function login(email, password) {
       .then(
         (user) => {
           dispatch(success(user));
-          history.push('/');
+          history.push('/accounts/list');
         },
         (error) => {
           dispatch(failure(error));
@@ -37,7 +37,7 @@ function register(email, password) {
       .then(
         (user) => {
           dispatch(success(user));
-          history.push('/');
+          history.push('/accounts/list');
         },
         (error) => {
           dispatch(failure(error));

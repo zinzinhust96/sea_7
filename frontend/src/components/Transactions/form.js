@@ -45,13 +45,6 @@ class CreateAccountForm extends React.PureComponent {
     this.setState(getDefaultState())
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (!this.state.modal && this.state.modal !== prevState.modal) {
-  //     // update category list when user finish creating new category
-  //     this.props.getCategoriesByAccount(this.state.acc_id, this.state.trans_type)
-  //   }
-  // }
-
   handleAccountChange = (e) => {
     this.setState({
       acc_id: parseFloat(e.target.value),
@@ -112,7 +105,7 @@ class CreateAccountForm extends React.PureComponent {
     const {
       submitting, error, success, listOfAccounts, listOfCategories, categoriesLoading,
     } = this.props
-    const categoryDisabled = categoriesLoading || listOfCategories.length === 0
+    const categoryDisabled = !accountID || categoriesLoading || listOfCategories.length === 0
     return (<div>
       <Form onSubmit={this.handleSubmitForm}>
         <div className="form-group row">

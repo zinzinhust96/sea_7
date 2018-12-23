@@ -51,7 +51,7 @@ class AuthForm extends React.PureComponent {
     const isLogin = authType === AUTH_TYPE.LOGIN
     const text = isLogin ? 'Login' : 'Register'
     return (<React.Fragment>
-      <h2>{text}</h2>
+      <h3 className="pb-2" style={{ borderBottom: '1px solid #a5a5a5' }}>{text}</h3>
       <form name="form" onSubmit={isLogin ? this.handleLoginSubmit : this.handleRegisterSubmit}>
         <div className={`form-group${submitted && !email ? ' has-error' : ''}`}>
           <label htmlFor="email" className="control-label">Email</label>
@@ -68,7 +68,7 @@ class AuthForm extends React.PureComponent {
           }
         </div>
         <div className="form-group">
-          <button type="submit" className="btn btn-primary">{text}</button>
+          <button type="submit" className="btn btn-primary mx-0">{text}</button>
           {loggingIn
             && <img alt="spinner" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
           }

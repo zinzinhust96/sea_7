@@ -32,10 +32,16 @@ const RenderMultilevelSelect = ({ list, index }) => list.map((item) => {
   </React.Fragment>)
 })
 
+const DURATION_VALUE_MAP = {
+  ONE_MONTH: 1,
+  TWO_MONTHS: 2,
+  THREE_MONTHS: 3,
+}
+
 const defaultState = {
   name: '',
   ini_bal: '',
-  duration: '',
+  duration: DURATION_VALUE_MAP.ONE_MONTH,
   rate: '',
   acc_id: '',
 }
@@ -92,9 +98,9 @@ class CreateSavingAccountForm extends React.PureComponent {
         <div className="form-group row">
           <label htmlFor="duration" className="col-sm-3 col-form-label text-right">Duration</label>
           <select id="duration" className="col-sm-9 form-control" name="duration" value={duration} onChange={this.handleNumberFieldChange} required>
-            <option value={1}>1 month</option>
-            <option value={2}>2 months</option>
-            <option value={3}>3 months</option>
+            <option value={DURATION_VALUE_MAP.ONE_MONTH}>1 month</option>
+            <option value={DURATION_VALUE_MAP.TWO_MONTHS}>2 months</option>
+            <option value={DURATION_VALUE_MAP.THREE_MONTHS}>3 months</option>
           </select>
         </div>
         <div className="form-group row">

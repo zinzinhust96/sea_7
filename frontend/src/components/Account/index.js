@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import {
   Card, CardBody, CardHeader, Col, Row, Table,
 } from 'reactstrap';
@@ -28,6 +29,8 @@ const AccountRow = ({ account, handleAccountSelect }) => {
   )
 }
 
+const calculateTotalBalance = accounts => accounts.reduce((accumulator, currentItem) => accumulator + currentItem.cur_bal, 0)
+
 class ListAccount extends Component {
   componentDidMount() {
     this.props.getAllAccounts();
@@ -40,6 +43,26 @@ class ListAccount extends Component {
 
   render() {
     const { listOfAccounts, accountLoading } = this.props;
+    let mainDisplay
+    if (accountLoading) {
+      mainDisplay = <Spinner />
+    } else if (listOfAccounts.length === 0) {
+      mainDisplay = <div className="py-3 text-center">No account yet. Please click <Link to="/accounts/create">here</Link> to create a new account</div>
+    } else {
+      mainDisplay = (<Table responsive hover>
+        <thead>
+          <tr>
+            <th scope="col">Created</th>
+            <th scope="col">Account Name</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Credit Limit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listOfAccounts.map((account, index) => <AccountRow key={index} account={account} handleAccountSelect={this.onAccountSelect} />)}
+        </tbody>
+      </Table>)
+    }
 
     return (
       <div className="animated fadeIn container-fluid">
@@ -48,23 +71,11 @@ class ListAccount extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-align-justify" /> List Account
+                <small className="text-muted">
+                    , (total balance: {listOfAccounts.length !== 0 ? vndFormat(calculateTotalBalance(listOfAccounts)) : 'N/A'})</small>
               </CardHeader>
               <CardBody>
-                {accountLoading ? <Spinner /> : (<Table responsive hover>
-                  <thead>
-                    <tr>
-                      <th scope="col">Created</th>
-                      <th scope="col">Account Name</th>
-                      <th scope="col">Balance</th>
-                      <th scope="col">Credit Limit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {accountLoading
-                      ? <Spinner />
-                      : listOfAccounts.map((account, index) => <AccountRow key={index} account={account} handleAccountSelect={this.onAccountSelect} />)}
-                  </tbody>
-                </Table>)}
+                {mainDisplay}
               </CardBody>
             </Card>
           </Col>
