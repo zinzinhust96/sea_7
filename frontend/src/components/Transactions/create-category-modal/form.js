@@ -70,7 +70,7 @@ class CreateCategoryModal extends React.PureComponent {
     })
   }
 
-  handleSubmitForm = (e) => {
+  handleSubmitForm = async (e) => {
     e.preventDefault()
     let body
     body = {
@@ -84,7 +84,7 @@ class CreateCategoryModal extends React.PureComponent {
         parent_id: this.state.parent_id,
       }
     }
-    this.props.onSubmit(body)
+    await this.props.onSubmit(body)
     this.props.getCategoriesByAccount(this.props.currentAccId, this.state.type)
   }
 
